@@ -4,17 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.gura.spring05.user.dto.UsersDto" alias="usersDto"/>
-		<typeAlias type="com.gura.spring05.cafe.dto.CafeDto" alias="cafeDto"/>
-		<typeAlias type="com.gura.spring05.cafe.dto.CafeCommentDto" alias="cafeCommentDto"/>
-		<typeAlias type="com.gura.spring05.file.dto.FileDto" alias="fileDto"/>
-		<typeAlias type="com.gura.spring05.gallery.dto.GalleryDto" alias="galleryDto"/>
+		<typeAlias type="com.songpring.project.shop.dto.ShopDto" alias="shopDto"/>
 	</typeAliases>
 	<mappers>
-		<mapper resource="com/gura/spring05/mybatis/UsersMapper.xml"/>
-		<mapper resource="com/gura/spring05/mybatis/CafeMapper.xml"/>
-		<mapper resource="com/gura/spring05/mybatis/CafeCommentMapper.xml"/>
-		<mapper resource="com/gura/spring05/mybatis/FileMapper.xml"/>
-		<mapper resource="com/gura/spring05/mybatis/GalleryMapper.xml"/>
+		<mapper resource="com/songpring/project/mybatis/ShopMapper.xml"/>
 	</mappers>
 </configuration>

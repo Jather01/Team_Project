@@ -1,4 +1,4 @@
-package com.gura.spring05.Exception;
+package com.songpring.project.Exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

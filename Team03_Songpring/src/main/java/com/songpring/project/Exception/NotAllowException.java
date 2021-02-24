@@ -1,4 +1,4 @@
-package com.gura.spring05.Exception;
+package com.songpring.project.Exception;
 
 public class NotAllowException extends RuntimeException {
 	public NotAllowException(String msg) {

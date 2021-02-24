@@ -6,16 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/views/home.jsp</title>
-<jsp:include page="include/resource.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="include/navbar.jsp"></jsp:include>
 	<div class="container">
-		<h1>홈페이지입니다.</h1>
+		<h1>홈페이지</h1>
 		<ul>
-			<li><a href="cafe/list.do">카페 글 목록 보기</a></li>
-			<li><a href="file/list.do">자료실 목록 보기</a></li>
-			<li><a href="gallery/list.do">갤러리 보기</a></li>
+			<li><a href="shop/list1.do">쇼핑몰 목록 보기1</a></li>
+			<li><a href="shop/list2.do">쇼핑몰 목록 보기2</a></li>
+			<li><a href="shop/private/uploadform.do">책 판매 업로드</a></li>
 		</ul>
 	</div>
 </body>

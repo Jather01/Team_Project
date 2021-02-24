@@ -38,7 +38,7 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"/>
 		<beans:property name="configLocation"
-	value="classpath:com/gura/spring05/mybatis/Configuration.xml"/>
+	value="classpath:com/songpring/project/mybatis/Configuration.xml"/>
 	</beans:bean>
 	<!-- 
 		sessionFactory=new SqlSessionFactoryBean();

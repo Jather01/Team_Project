@@ -1,4 +1,4 @@
-package com.gura.spring05;
+package com.songpring.project;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,5 +9,8 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
-	
+	@RequestMapping("/dateTest")
+	public String dateTest() {
+		return "dateTest";
+	}
 }
