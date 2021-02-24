@@ -9,9 +9,9 @@
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
 	.img-wrapper img{
-		width: 900px;
-		height: 450px;
-		object-fit: cover;
+		width: 500px;
+		height: 500px;
+		object-fit: scale-down;
 		margin-bottom: 50px;
 	}
 </style>

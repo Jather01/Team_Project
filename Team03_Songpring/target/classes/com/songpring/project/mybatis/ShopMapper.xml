@@ -18,7 +18,7 @@
 	WHERE num=#{num}
 </delete>
 <select id="getData" parameterType="int" resultType="shopDto">
-	SELECT num, title, imagePath, genre, writer, publisher, regdate, price, content, sellCount, page, bookSize
+	SELECT num, title, imagePath, genre, writer, publisher, TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일"') as regdate, price, content, sellCount, page, bookSize
 	FROM songpring_shop
 	WHERE num=#{num}
 </select>
@@ -27,7 +27,7 @@
 	FROM
 		(SELECT result1.*, ROWNUM AS rnum
 		FROM
-			(SELECT num, title, imagePath, genre, writer, publisher, regdate, price, content, sellCount, page, bookSize
+			(SELECT num, title, imagePath, genre, writer, publisher, TO_CHAR(regdate , 'YYYY"년 "MM"월 "') as regdate, price, content, sellCount, page, bookSize
 			FROM songpring_shop
 			<choose>
 				<when test="title != null">
@@ -36,11 +36,28 @@
 				<when test="writer != null">
 					WHERE writer LIKE '%'||#{writer}||'%'
 				</when>
-				<when test="genre != null">
-					WHERE genre LIKE '%'||#{genre}||'%'
+				<when test="publisher != null">
+					WHERE publisher LIKE '%'||#{publisher}||'%'
 				</when>
 			</choose>
-			ORDER BY num DESC) result1)
+			<choose>
+				<when test="order == 'highPrice'">
+					ORDER BY price ASC
+				</when>
+				<when test="order == 'lowPrice'">
+					ORDER BY price DESC
+				</when>
+				<when test="order == 'sellCount'">
+					ORDER BY sellCount ASC
+				</when>
+				<when test="order == 'date'">
+					ORDER BY regdate ASC
+				</when>
+				<otherwise>
+					ORDER BY num ASC
+				</otherwise>
+			</choose>
+			) result1)
 	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 </select>
 <select id="getCount" parameterType="shopDto" resultType="int">

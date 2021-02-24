@@ -52,6 +52,8 @@ public class ShopServiceImpl implements ShopService {
 		*/
 		String keyword=request.getParameter("keyword");
 		String condition=request.getParameter("condition");
+		String genre=request.getParameter("genre");
+		String order=request.getParameter("order");
 		//만일 키워드가 넘어오지 않는다면 
 		if(keyword==null){
 			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
@@ -59,6 +61,8 @@ public class ShopServiceImpl implements ShopService {
 			keyword="";
 			condition=""; 
 		}
+		if(genre==null) genre="";
+		if(order==null) order="";
 		
 		//특수기호를 인코딩한 키워드를 미리 준비한다. 
 		String encodedK=URLEncoder.encode(keyword);
@@ -76,12 +80,18 @@ public class ShopServiceImpl implements ShopService {
 		if(!keyword.equals("")){
 			//검색 조건이 무엇이냐에 따라 분기 하기
 			if(condition.equals("title")){//제목 검색인 경우
-				dto.setTitle(keyword);
-			}else if(condition.equals("genre")){ //장르 검색인 경우
-				dto.setGenre(keyword);			
+				dto.setTitle(keyword);		
 			}else if(condition.equals("writer")){ //저자 검색인 경우
 				dto.setWriter(keyword);
+			}else if(condition.equals("publisher")){ //출판사 검색인 경우
+				dto.setPublisher(keyword);
 			}
+		}
+		if(!genre.equals("")) {
+			dto.setGenre(genre);
+		}
+		if(!order.equals("")) {
+			dto.setOrder(order);
 		}
 		//글목록 얻어오기
 		list=shopDao.getList(dto);

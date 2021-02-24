@@ -14,13 +14,15 @@ public class ShopDto {
 	private int sellCount; // 판매횟수
 	private int page; // 책 쪽수
 	private String bookSize; // 책 크기(가로*세로*높이)
+	// 정렬
+	private String order; // 정렬 기준 (최고가 highPrice, 최저가 lowPrice, 판매수 sellCount, 신상품 date)
 	// 페이징 처리
 	private int startRowNum;
 	private int endRowNum;
 	// 생성자
 	public ShopDto() {}
 	public ShopDto(int num, String title, String imagePath, String genre, String writer, String publisher, int price,
-			String regdate, String content, int sellCount, int page, String bookSize, int startRowNum, int endRowNum) {
+			String regdate, String content, int sellCount, int page, String bookSize, String order, int startRowNum, int endRowNum) {
 		super();
 		this.num = num;
 		this.title = title;
@@ -34,6 +36,7 @@ public class ShopDto {
 		this.sellCount = sellCount;
 		this.page = page;
 		this.bookSize = bookSize;
+		this.order=order;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 	}
@@ -120,5 +123,11 @@ public class ShopDto {
 	}
 	public void setEndRowNum(int endRowNum) {
 		this.endRowNum = endRowNum;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
 	}
 }

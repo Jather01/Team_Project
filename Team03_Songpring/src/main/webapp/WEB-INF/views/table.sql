@@ -3,7 +3,7 @@ CREATE TABLE songpring_shop(
 	num NUMBER PRIMARY KEY,
 	title VARCHAR2(100),
 	imagePath VARCHAR2(100),
-	genre VARCHAR2(100),
+	genre VARCHAR2(100), -- novel, culture, workbook, comicbook, dictionary
 	writer VARCHAR2(100),
 	publisher VARCHAR2(100),
 	regdate DATE,
