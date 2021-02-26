@@ -5,8 +5,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.songpring.project.shop.dto.ShopDto" alias="shopDto"/>
+		<typeAlias type="com.songpring.project.users.dto.UsersDto" alias="usersDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/songpring/project/mybatis/ShopMapper.xml"/>
+		<mapper resource="com/songpring/project/mybatis/UsersMapper.xml"/>
 	</mappers>
 </configuration>

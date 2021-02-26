@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<update id="updateGrade" parameterType="usersDto">
+		UPDATE users
+		SET grade=#{grade}
+		WHERE id=#{id}
+	</update>
+	<select id="getList" parameterType="usersDto" resultType="usersDto">
+		SELECT *
+		FROM (SELECT result1.*, ROWNUM AS rnum
+			FROM (SELECT name, id, email, useraddr1, useraddr2, useraddr3, TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일"') as regdate, grade
+				FROM users
+				<choose>
+					<when test="name != null">
+						WHERE name LIKE '%'||#{name}||'%'
+					</when>
+					<when test="id != null">
+						WHERE id LIKE '%'||#{id}||'%'
+					</when>
+					<when test="grade != null">
+						WHERE grade LIKE '%'||#{grade}||'%'
+					</when>
+				</choose>
+				ORDER BY id DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getCount" parameterType="usersDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM users
+		<choose>
+			<when test="name != null">
+				WHERE name LIKE '%'||#{name}||'%'
+			</when>
+			<when test="id != null">
+				WHERE id LIKE '%'||#{id}||'%'
+			</when>
+			<when test="grade != null">
+				WHERE grade LIKE '%'||#{grade}||'%'
+			</when>
+		</choose>
+</select>
+</mapper>
