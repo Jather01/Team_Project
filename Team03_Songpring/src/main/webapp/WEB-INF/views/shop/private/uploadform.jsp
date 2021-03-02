@@ -14,6 +14,10 @@
 		object-fit: scale-down;
 		margin-bottom: 50px;
 	}
+	#content{
+		width: 99%;
+		height: 400px;
+	}
 </style>
 </head>
 <body>

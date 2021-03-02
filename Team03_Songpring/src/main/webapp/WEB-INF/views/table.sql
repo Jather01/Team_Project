@@ -15,3 +15,12 @@ CREATE TABLE songpring_shop(
 );
 -- 책 번호 시퀀스
 CREATE SEQUENCE songpring_shop_seq;
+-- 공지사항
+CREATE TABLE songpring_notice(
+	num NUMBER PRIMARY KEY,
+	title VARCHAR2(100),
+	content CLOB,
+	regdate DATE
+);
+-- 공지사항 번호 시퀀스
+CREATE SEQUENCE songpring_notice_seq;
