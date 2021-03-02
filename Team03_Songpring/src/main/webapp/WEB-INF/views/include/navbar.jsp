@@ -1,34 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<nav class="navbar navbar-dark bg-primary navbar-expand-sm fixed-top">
-	<div class="container">
-		<a class="navbar-brand" href="${pageContext.request.contextPath }/">
-			<img style="width:30px; heigth:30px;" src="${pageContext.request.contextPath }/resources/images/yellowbird.png"></img>Acorn</a>
-		<button class="navbar-toggler" data-toggle="collapse" data-target="#topNav">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="topNav">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item ${param.thisPage eq 'cafe' ? 'active':'' }">
-					<a class="nav-link" href="${pageContext.request.contextPath }/cafe/list.do">카페 글 목록</a></li>
-				<li class="nav-item ${param.thisPage eq 'file' ? 'active':'' }">
-					<a class="nav-link" href="${pageContext.request.contextPath }/file/list.do">자료실 목록</a></li>
-				<li class="nav-item ${param.thisPage eq 'gallery' ? 'active':'' }">
-					<a class="nav-link" href="${pageContext.request.contextPath }/gallery/list.do">갤러리 목록</a></li>
-			</ul>
+<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="collapse navbar-collapse">
+			<div class="navbar-nav" style="width: 100%;">
+				<table style="width: 100%;">
+					<tr>
+						<td style="width: 60%;"></td>
+						<td align = "center"><small><a class="nav-link" href="">로그인</a></small></td>
+						<td align = "center"><small><a class="nav-link" href="">회원가입</a></small></td>
+						<td align = "center"><small><a class="nav-link" href="">마이페이지</a></small></td>
+						<td align = "center"><small><a class="nav-link" href="">카트</a></small></td>
+						<td align = "center"><small><a class="nav-link" href="">주문/배송</a></small></a></td>
+						<td align = "center"><small><a class="nav-link" href="">고객센터</a></small></td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		<c:choose>
-			<c:when test="${empty sessionScope.id }">
-				<a class="btn btn-success btn-sm" href="${pageContext.request.contextPath }/users/loginform.do">로그인</a>
-				<a class="btn btn-danger btn-sm ml-1" href="${pageContext.request.contextPath }/users/signup_form.do">회원 가입</a>
-			</c:when>
-			<c:otherwise>
-				<span class="navbar-text">
-					<a href="${pageContext.request.contextPath }/users/private/info.do">${sessionScope.id }</a>님 로그인 중...
-					<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath }/users/logout.do">로그아웃</a>
-				</span>
-			</c:otherwise>
-		</c:choose>
+	</nav>
+	<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+		<div class="col-6 col-md-4"></div>
+		<div class="col-6 col-md-4 navbar">
+			<a href="${pageContext.request.contextPath }/">
+				<img style="width: 50px; heigth: 50px;" src="${pageContext.request.contextPath }/resources/images/yellowbird.png" />
+			</a>
+			<form class="form-inline" method="get" action="${pageContext.request.contextPath }/shop/list1.do">
+				<input class="form-control mr-sm-2" type="text" name="keyword" placeholder="검색할 책 제목 입력..." value="${keyword}" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+			</form>
+		</div>
+		<div class="col-6 col-md-4"></div>
 	</div>
-</nav>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="navbar-nav" style="width: 100%;">
+			<table style="width: 100%;">
+				<tr>
+					<td align = "center"><a class="nav-link" href="">소설</a></td>
+					<td align = "center"><a class="nav-link" href="">교양</a></td>
+					<td align = "center"><a class="nav-link" href="">문제집</a></td>
+					<td align = "center"><a class="nav-link" href="">만화</a></td>
+					<td align = "center"><a class="nav-link" href="">사전</a></td>
+				</tr>
+			</table>
+		</div>
+	</nav>
+</div>

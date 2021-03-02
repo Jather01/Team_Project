@@ -13,13 +13,13 @@
 	<c:when test="${isSuccess >0 }">
 		<script>
 			alert("권한 부여에 성공하였습니다.");
-			location.href="${pageContext.request.contextPath }/users/manager/users_list.do";
+			location.href="${pageContext.request.contextPath }/users/manager/users_list.do?pageNum=${pageNum}&condition=${condition }&keyword=${encodedK}&order=${order}";
 		</script>
 	</c:when>
 	<c:otherwise>
 		<script>
 			alert("권한 부여에 실패했습니다.");
-			location.href="${pageContext.request.contextPath }/users/manager/users_list.do";
+			location.href="${pageContext.request.contextPath }/users/manager/users_list.do?pageNum=${pageNum}&condition=${condition }&keyword=${encodedK}&order=${order}";
 		</script>
 	</c:otherwise>
 </c:choose>

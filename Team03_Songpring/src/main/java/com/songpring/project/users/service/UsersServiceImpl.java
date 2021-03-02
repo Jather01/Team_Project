@@ -44,6 +44,8 @@ public class UsersServiceImpl implements UsersService {
 		 */
 		String keyword = request.getParameter("keyword");
 		String condition = request.getParameter("condition");
+		String grade = request.getParameter("grade");
+		String order=request.getParameter("order");
 		// 만일 키워드가 넘어오지 않는다면
 		if (keyword == null) {
 			// 키워드와 검색 조건에 빈 문자열을 넣어준다.
@@ -51,6 +53,8 @@ public class UsersServiceImpl implements UsersService {
 			keyword = "";
 			condition = "";
 		}
+		if(grade==null) grade="";
+		if(order==null) order="";
 
 		// 특수기호를 인코딩한 키워드를 미리 준비한다.
 		String encodedK = URLEncoder.encode(keyword);
@@ -67,14 +71,15 @@ public class UsersServiceImpl implements UsersService {
 		// 만일 검색 키워드가 넘어온다면
 		if (!keyword.equals("")) {
 			// 검색 조건이 무엇이냐에 따라 분기 하기
-			if (condition.equals("name")) {// 제목 검색인 경우
+			if (condition.equals("name")) {
 				dto.setName(keyword);
-			} else if (condition.equals("id")) { // 저자 검색인 경우
+			} // 이름 검색인 경우
+			else if (condition.equals("id")) {
 				dto.setId(keyword);
-			} else if (condition.equals("grade")) { // 출판사 검색인 경우
-				dto.setGrade(keyword);
-			}
+			} // 아이디 검색인 경우
 		}
+		if (!grade.equals("")) dto.setGrade(grade);
+		if (!order.equals("")) dto.setOrder(order);
 		// 글목록 얻어오기
 		list = dao.getList(dto);
 		// 글의 갯수
@@ -100,18 +105,29 @@ public class UsersServiceImpl implements UsersService {
 		mView.addObject("totalPageCount", totalPageCount);
 		mView.addObject("condition", condition);
 		mView.addObject("keyword", keyword);
+		mView.addObject("order", order);
+		mView.addObject("grade", grade);
 		mView.addObject("encodedK", encodedK);
 		mView.addObject("totalRow", totalRow);
 	}
 
 	@Override
 	public void updateGrade(ModelAndView mView, HttpServletRequest request) {
+		String pageNum = request.getParameter("pageNum");
+		String keyword = request.getParameter("keyword");
+		String condition = request.getParameter("condition");
+		String grade = request.getParameter("grade");
+		String order=request.getParameter("order");
 		UsersDto dto=new UsersDto();
 		String id=request.getParameter("id");
-		String grade=request.getParameter("grade");
 		dto.setId(id);
 		dto.setGrade(grade);
 		int isSuccess=dao.updateGrade(dto);
 		mView.addObject("isSuccess", isSuccess);
+		mView.addObject("condition", condition);
+		mView.addObject("keyword", keyword);
+		mView.addObject("order", order);
+		mView.addObject("grade", grade);
+		mView.addObject("pageNum", pageNum);
 	}
 }

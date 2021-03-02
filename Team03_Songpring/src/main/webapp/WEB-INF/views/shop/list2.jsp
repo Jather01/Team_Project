@@ -59,7 +59,7 @@
 						</c:choose>
 						]<a href="detail.do?num=${tmp.num}"> ${tmp.title }</a></h5>
 					<p class="card-text"><small>저자</small> <a href="list2.do?writer=${writer }">${tmp.writer }</a></p>
-					<p class="card-text"><small>출판</small> <a href="list2.do?writer=${publisher }">${tmp.publisher }</a></p>
+					<p class="card-text"><small>출판</small> <a href="list2.do?publisher=${publisher }">${tmp.publisher }</a></p>
 					<p class="card-text">${tmp.regdate }</p>
 					<p class="card-text">${tmp.price } 원</p>
 				</div>

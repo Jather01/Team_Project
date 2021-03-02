@@ -9,8 +9,8 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
-	@RequestMapping("/dateTest")
-	public String dateTest() {
-		return "dateTest";
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
 	}
 }

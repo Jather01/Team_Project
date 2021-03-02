@@ -34,10 +34,13 @@
 					WHERE title LIKE '%'||#{title}||'%'
 				</when>
 				<when test="writer != null">
-					WHERE writer LIKE '%'||#{writer}||'%'
+					WHERE writer=#{writer}
 				</when>
 				<when test="publisher != null">
-					WHERE publisher LIKE '%'||#{publisher}||'%'
+					WHERE publisher=#{publisher}
+				</when>
+				<when test="genre != null">
+					WHERE genre=#{genre}
 				</when>
 			</choose>
 			<choose>

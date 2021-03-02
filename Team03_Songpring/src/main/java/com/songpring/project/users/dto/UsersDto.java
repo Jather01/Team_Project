@@ -12,12 +12,14 @@ public class UsersDto {
 	private String useraddr2;
 	private String useraddr3;
 	private String grade;
+	// 정렬
+	private String order; // name, id, regdate
 	// 페이징 처리
 	private int startRowNum;
 	private int endRowNum;
 	public UsersDto() {}
 	public UsersDto(String name, String id, String pwd, String email, String profile, String regdate, String newPwd,
-			String useraddr1, String useraddr2, String useraddr3, String grade, int startRowNum, int endRowNum) {
+			String useraddr1, String useraddr2, String useraddr3, String grade, String order, int startRowNum, int endRowNum) {
 		super();
 		this.name=name;
 		this.id = id;
@@ -30,6 +32,7 @@ public class UsersDto {
 		this.useraddr2 = useraddr2;
 		this.useraddr3 = useraddr3;
 		this.grade = grade;
+		this.order=order;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 	}
@@ -98,6 +101,12 @@ public class UsersDto {
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
 	}
 	public int getStartRowNum() {
 		return startRowNum;

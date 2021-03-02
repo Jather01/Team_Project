@@ -51,18 +51,16 @@ public class ShopServiceImpl implements ShopService {
 			-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
 		*/
 		String keyword=request.getParameter("keyword");
-		String condition=request.getParameter("condition");
+		String writer=request.getParameter("writer");
+		String publisher=request.getParameter("publisher");
 		String genre=request.getParameter("genre");
 		String order=request.getParameter("order");
 		//만일 키워드가 넘어오지 않는다면 
-		if(keyword==null){
-			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
-			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
-			keyword="";
-			condition=""; 
-		}
+		if(keyword==null) keyword="";
 		if(genre==null) genre="";
 		if(order==null) order="";
+		if(writer==null) writer="";
+		if(publisher==null) publisher="";
 		
 		//특수기호를 인코딩한 키워드를 미리 준비한다. 
 		String encodedK=URLEncoder.encode(keyword);
@@ -77,22 +75,11 @@ public class ShopServiceImpl implements ShopService {
 		//전체 row 의 갯수를 담을 지역변수를 미리 만든다.
 		int totalRow=0;
 		//만일 검색 키워드가 넘어온다면 
-		if(!keyword.equals("")){
-			//검색 조건이 무엇이냐에 따라 분기 하기
-			if(condition.equals("title")){//제목 검색인 경우
-				dto.setTitle(keyword);		
-			}else if(condition.equals("writer")){ //저자 검색인 경우
-				dto.setWriter(keyword);
-			}else if(condition.equals("publisher")){ //출판사 검색인 경우
-				dto.setPublisher(keyword);
-			}
-		}
-		if(!genre.equals("")) {
-			dto.setGenre(genre);
-		}
-		if(!order.equals("")) {
-			dto.setOrder(order);
-		}
+		if(!keyword.equals("")) dto.setTitle(keyword);
+		if(!genre.equals("")) dto.setGenre(genre);
+		if(!order.equals("")) dto.setOrder(order);
+		if(!writer.equals("")) dto.setWriter(writer);
+		if(!publisher.equals("")) dto.setPublisher(publisher);
 		//글목록 얻어오기
 		list=shopDao.getList(dto);
 		//글의 갯수
@@ -116,7 +103,10 @@ public class ShopServiceImpl implements ShopService {
 		mView.addObject("startPageNum", startPageNum);
 		mView.addObject("endPageNum", endPageNum);
 		mView.addObject("totalPageCount", totalPageCount);
-		mView.addObject("condition", condition);
+		mView.addObject("genre", genre);
+		mView.addObject("writer", writer);
+		mView.addObject("publisher", publisher);
+		mView.addObject("order", order);
 		mView.addObject("keyword", keyword);
 		mView.addObject("encodedK", encodedK);
 		mView.addObject("totalRow", totalRow);

@@ -18,11 +18,25 @@
 					<when test="id != null">
 						WHERE id LIKE '%'||#{id}||'%'
 					</when>
-					<when test="grade != null">
-						WHERE grade LIKE '%'||#{grade}||'%'
-					</when>
 				</choose>
-				ORDER BY id DESC) result1)
+				<choose>
+					<when test="order == 'id'">
+						ORDER BY id DESC
+					</when>
+					<when test="order == 'name'">
+						ORDER BY name DESC, id DESC
+					</when>
+					<when test="order == 'regdate'">
+						ORDER BY regdate DESC, id DESC
+					</when>
+					<when test="order == 'grade'">
+						ORDER BY grade DESC, id DESC
+					</when>
+					<otherwise>
+						ORDER BY id DESC
+					</otherwise>
+				</choose>
+				) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getCount" parameterType="usersDto" resultType="int">
