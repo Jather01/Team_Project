@@ -1,6 +1,7 @@
 package com.songpring.project.users.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,12 @@ import com.songpring.project.users.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService service;
+	
+	@RequestMapping("/users/testlogin")
+	public String testLogin(HttpSession session) {
+		session.setAttribute("id", "이충환_테스트_아이디");
+		return "users/testlogin";
+	}
 	
 	@RequestMapping("/users/manager/users_list")
 	public ModelAndView usersList(ModelAndView mView, HttpServletRequest request) {

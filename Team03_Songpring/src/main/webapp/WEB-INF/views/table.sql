@@ -24,3 +24,24 @@ CREATE TABLE songpring_notice(
 );
 -- 공지사항 번호 시퀀스
 CREATE SEQUENCE songpring_notice_seq;
+-- Q&A
+CREATE TABLE songpring_QnA(
+	num NUMBER PRIMARY KEY, -- 글 번호
+	bookNum NUMBER REFERENCES songpring_shop(num), -- 책 번호
+	writer VARCHAR2(100), -- 작성자(고객)
+	content CLOB, -- 내용
+	regdate DATE, -- 작성일
+	comment CLOB -- 답글(관리자 작성)
+);
+-- Q&A 시퀀스
+CREATE SEQUENCE songpring_QnA_seq;
+-- 리뷰
+CREATE TABLE songpring_review(
+	num NUMBER PRIMARY KEY, -- 글 번호
+	bookNum NUMBER REFERENCES songpring_shop(num), -- 책 번호
+	writer VARCHAR2(100), -- 작성자(고객)
+	content CLOB, -- 내용
+	regdate DATE -- 작성일
+);
+-- 리뷰 시퀀스
+CREATE SEQUENCE songpring_review_seq;

@@ -46,7 +46,7 @@
 		VALUES(songpring_notice_seq.NEXTVAL, #{title}, #{content}, SYSDATE)
 	</insert>
 	<select id="getData" parameterType="int" resultType="noticeDto">
-		SELECT num,title,content,TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일 "HH"시"MI"분"') as regdate
+		SELECT num,title,content,TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일 "HH24"시"MI"분"') as regdate
 		FROM songpring_notice
 		WHERE num=#{num}
 	</select>

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.songpring.project.shop.dto.ShopDto;
+import com.songpring.project.shop.dto.ShopReviewDto;
 import com.songpring.project.shop.service.ShopService;
 
 @Controller
@@ -24,6 +25,7 @@ public class ShopController {
 	// 의존객체 DI
 	@Autowired
 	private ShopService service;
+	
 	// 책 판매 종료
 	@RequestMapping("/shop/private/delete")
 	public String delete(@RequestParam int num) {
@@ -32,8 +34,8 @@ public class ShopController {
 	}
 	// 책 정보 수정 폼
 	@RequestMapping("/shop/private/updateform")
-	public ModelAndView updateform(@RequestParam int num, ModelAndView mView) {
-		service.getDetail(num, mView);
+	public ModelAndView updateform(@RequestParam int num, HttpServletRequest request, ModelAndView mView) {
+		service.getDetail(num, request, mView);
 		mView.setViewName("shop/private/updateform");
 		return mView;
 	}
@@ -45,9 +47,9 @@ public class ShopController {
 	}
 	// 책 상세 페이지
 	@RequestMapping("/shop/detail")
-	public ModelAndView detail(@RequestParam int num, ModelAndView mView) {
+	public ModelAndView detail(@RequestParam int num, HttpServletRequest request, ModelAndView mView) {
 		//자세히 보여줄 글번호가 파라미터로 넘어온다.
-		service.getDetail(num, mView);
+		service.getDetail(num, request, mView);
 		//view page 로 forward 이동해서 응답
 		mView.setViewName("shop/detail");
 		return mView;
@@ -78,6 +80,7 @@ public class ShopController {
 	public String uploadform() {
 		return "shop/private/uploadform";
 	}
+	// 사진 미리보기
 	@RequestMapping(value = "/shop/private/ajax_upload", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request){
@@ -87,5 +90,36 @@ public class ShopController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("imagePath", imagePath);
 		return map;
+	}
+	// 리뷰 등록
+	@RequestMapping(value = "/shop/private/review_insert", 
+			method = RequestMethod.POST)
+	public String reviewInsert(HttpServletRequest request,
+			@RequestParam int bookNum) {
+		//새 리뷰를 저장하고
+		service.insertReview(request);
+		//글 자세히 보기로 다시 리다일렉트 이동 시킨다.
+		return "redirect:/shop/detail.do?num="+bookNum;
+	}
+	// 리뷰 수정
+	@RequestMapping(value = "/shop/private/review_update", 
+			method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> reviewUpdate(ShopReviewDto dto){
+		//댓글을 수정 반영하고 
+		service.updateReview(dto);
+		//JSON 문자열을 클라이언트에게 응답한다.
+		Map<String, Object> map=new HashMap<>();
+		map.put("num", dto.getNum());
+		map.put("content", dto.getContent());
+		return map;
+	}
+	// 리뷰 삭제
+	@RequestMapping("/shop/private/review_delete")
+	public ModelAndView commentDelete(HttpServletRequest request,
+			ModelAndView mView, @RequestParam int bookNum) {
+		service.deleteReview(request);
+		mView.setViewName("redirect:/shop/detail.do?num="+bookNum);
+		return mView;
 	}
 }
