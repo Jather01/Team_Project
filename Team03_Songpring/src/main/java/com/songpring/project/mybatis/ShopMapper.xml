@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shop">
+
 <insert id="insert" parameterType="shopDto">
 	INSERT INTO songpring_shop
 	(num, title, imagePath, genre, writer, publisher, regdate, price, content, sellCount, page, bookSize)
 	VALUES(songpring_shop_seq.NEXTVAL, #{title}, #{imagePath}, #{genre}, #{writer},
 		#{publisher}, #{regdate}, #{price}, #{content}, 0, #{page}, #{bookSize})
 </insert>
+
 <update id="update" parameterType="shopDto">
 	UPDATE board_cafe
 	SET title=#{title}, imagePath=#{imagePath}, genre=#{genre}, writer=#{writer}, publisher=#{publisher},
 		regdate=#{regdate}, price=#{price}, content=#{content}, page=#{page}, bookSize=#{bookSize}
 	WHERE num=#{num}
 </update>
+
 <delete id="delete" parameterType="int">
 	DELETE FROM songpring_shop
 	WHERE num=#{num}
 </delete>
+
 <select id="getData" parameterType="int" resultType="shopDto">
 	SELECT num, title, imagePath, genre, writer, publisher, TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일"') as regdate, price, content, sellCount, page, bookSize
 	FROM songpring_shop
 	WHERE num=#{num}
 </select>
+
 <select id="getList" parameterType="shopDto" resultType="shopDto">
 	SELECT *
 	FROM
@@ -63,6 +68,7 @@
 			) result1)
 	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 </select>
+
 <select id="getCount" parameterType="shopDto" resultType="int">
 	SELECT NVL(MAX(ROWNUM), 0)
 	FROM songpring_shop
@@ -78,9 +84,11 @@
 		</when>
 	</choose>
 </select>
+
 <update id="addSellCount" parameterType="int">
 	UPDATE songpring_shop
 	SET sellCount=sellCount+1
 	WHERE num=#{num}
 </update>
+
 </mapper>
