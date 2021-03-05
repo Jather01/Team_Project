@@ -2,12 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 
+<!-- 장바구니 선택 리스트 -->
+<select id="buyList" parameterType="cartDto">
+        select @rownum:=@rownum+1 as rownum, 
+        	cartId, sjb_cart.productId,  memberId, cartStock, addDate , title, 
+			authorID, (select authorName from songpring_shop where songpring_shop.authorID=songpring_shop.authorID) as authorName, 
+			publisher, cateCode, (select cateName from songpring_shop where songpring_shop.cateCode=songpring_shop.cateCode) as cateName,
+			bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo, contents,
+			introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
+        from (select @rownum:=0) as rownum, songpring_cart 
+        join songpring_shop
+        on songpring_cart.productId = songpring_shop.songpring_shop.productID
+        where  cartId = #{cartId};
+</select>
+
 <!-- 장바구니 목록 보기 -->
+<select id="cartList" parameterType="cartDto">
+select @rownum:=@rownum+1 as rownum, 
+        cartId, sjb_cart.productId,  memberId, cartStock, addDate , title, 
+			authorID, (select authorName from songpring_shop where songpring_shop.authorID=songpring_shop.authorID) as authorName, 
+			publisher, cateCode, (select cateName from songpring_shop where songpring_shop.cateCode=songpring_shop.cateCode) as cateName,
+			bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo, contents,
+			introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
+        from (select @rownum:=0) as rownum, songpring_cart 
+        join sjb_book
+        on songpring_cart.productId = songpring_shop.productID
+        where sjb_cart.memberId = #{memberId};	  	  
+</select>
+
 
 <!-- 장바구니에 추가하기 -->
+ <insert id="cartEnroll" parameterType="cartDto">
+	insert into songpring_cart(productId, memberId, cartStock, addDate ) values(#{productId}, #{memberId}, #{cartStock}, sysdate());
+	<selectKey resultType="int" keyProperty="cartId" order="AFTER">
+        SELECT LAST_INSERT_ID()        
+    </selectKey> 	
+ </insert>
 
 <!-- 장바구니에 수량 변경하기 -->
+<update id="stockChange" parameterType="cartDto">
+	update songpring_cart set cartStock = #{cartStock} where cartId = #{cartId};
+</update>
 
 <!-- 장바구니에 삭제하기 -->
-
+<delete id="cartDelete" parameterType="cartDto">
+		delete from songpring_cart where cartId = #{cartId} and memberId = #{memberId};
+</delete>
 </mapper>

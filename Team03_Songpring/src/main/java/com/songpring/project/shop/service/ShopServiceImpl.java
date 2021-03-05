@@ -116,6 +116,7 @@ public class ShopServiceImpl implements ShopService {
 		mView.addObject("encodedK", encodedK);
 		mView.addObject("totalRow", totalRow);
 	}
+	
 	@Override
 	public void getDetail(int num, HttpServletRequest request, ModelAndView mView) {
 		//글번호를 이용해서 글정보를 얻어오고 

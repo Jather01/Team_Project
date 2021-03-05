@@ -111,6 +111,8 @@
 	<div>
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
+		<a href="users/member/private/buy.do">구매하기</a>
+		<a href="users/member/private/addcart.do">장바구니에 담기</a>
 	</div>
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item" role="presentation">
