@@ -8,7 +8,6 @@
 <jsp:include page="../include/resource.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="../include/navbar.jsp"></jsp:include>
 <div class="container">
 	<h1>회원 가입 폼 입니다.</h1>
 	<!-- 
@@ -274,13 +273,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

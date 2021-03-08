@@ -8,9 +8,9 @@ public class UsersDto {
 	private String profile;
 	private String regdate;
 	private String newPwd;
-	private String useraddr1;
-	private String useraddr2;
-	private String useraddr3;
+	private String userAddr1;
+	private String userAddr2;
+	private String userAddr3;
 	private String grade;
 	// 정렬
 	private String order; // name, id, regdate
@@ -19,7 +19,7 @@ public class UsersDto {
 	private int endRowNum;
 	public UsersDto() {}
 	public UsersDto(String name, String id, String pwd, String email, String profile, String regdate, String newPwd,
-			String useraddr1, String useraddr2, String useraddr3, String grade, String order, int startRowNum, int endRowNum) {
+			String userAddr1, String userAddr2, String userAddr3, String grade, String order, int startRowNum, int endRowNum) {
 		super();
 		this.name=name;
 		this.id = id;
@@ -28,9 +28,9 @@ public class UsersDto {
 		this.profile = profile;
 		this.regdate = regdate;
 		this.newPwd = newPwd;
-		this.useraddr1 = useraddr1;
-		this.useraddr2 = useraddr2;
-		this.useraddr3 = useraddr3;
+		this.userAddr1 = userAddr1;
+		this.userAddr2 = userAddr2;
+		this.userAddr3 = userAddr3;
 		this.grade = grade;
 		this.order=order;
 		this.startRowNum = startRowNum;
@@ -78,23 +78,23 @@ public class UsersDto {
 	public void setNewPwd(String newPwd) {
 		this.newPwd = newPwd;
 	}
-	public String getUseraddr1() {
-		return useraddr1;
+	public String getUserAddr1() {
+		return userAddr1;
 	}
-	public void setUseraddr1(String useraddr1) {
-		this.useraddr1 = useraddr1;
+	public void setUserAddr1(String userAddr1) {
+		this.userAddr1 = userAddr1;
 	}
-	public String getUseraddr2() {
-		return useraddr2;
+	public String getUserAddr2() {
+		return userAddr2;
 	}
-	public void setUseraddr2(String useraddr2) {
-		this.useraddr2 = useraddr2;
+	public void setUserAddr2(String userAddr2) {
+		this.userAddr2 = userAddr2;
 	}
-	public String getUseraddr3() {
-		return useraddr3;
+	public String getUserAddr3() {
+		return userAddr3;
 	}
-	public void setUseraddr3(String useraddr3) {
-		this.useraddr3 = useraddr3;
+	public void setUserAddr3(String userAddr3) {
+		this.userAddr3 = userAddr3;
 	}
 	public String getGrade() {
 		return grade;

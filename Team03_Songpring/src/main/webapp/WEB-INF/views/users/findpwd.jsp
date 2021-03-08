@@ -9,7 +9,6 @@
 <jsp:include page="../include/resource.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="../include/navbar.jsp"></jsp:include>
 <div class="container">
 	<h1>알림</h1>
 	<p> 

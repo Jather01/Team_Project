@@ -25,12 +25,6 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
-	@RequestMapping("/users/testlogin")
-	public String testLogin(HttpSession session) {
-		session.setAttribute("id", "이충환_테스트_아이디");
-		return "users/testlogin";
-	}
-	
 	@RequestMapping("/users/manager/users_list")
 	public ModelAndView usersList(ModelAndView mView, HttpServletRequest request) {
 		service.usersList(mView, request);
