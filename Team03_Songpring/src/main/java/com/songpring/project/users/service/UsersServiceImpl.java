@@ -216,6 +216,8 @@ public class UsersServiceImpl implements UsersService {
 		if(isValid) {
 			//HttpSession 객체를 이용해서 로그인 처리를 한다. 
 			request.getSession().setAttribute("id", id);
+			String userGrade=dao.getGrade(id);
+			request.getSession().setAttribute("userGrade", userGrade);
 		}
 		//체크박스를 체크 하지 않았으면 null 이다. 
 		String isSave=request.getParameter("isSave");

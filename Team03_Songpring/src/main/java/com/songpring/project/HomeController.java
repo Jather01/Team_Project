@@ -13,4 +13,8 @@ public class HomeController {
 	public String test() {
 		return "test";
 	}
+	@RequestMapping("/manager_error")
+	public String managerError() {
+		return "manager_error";
+	}
 }

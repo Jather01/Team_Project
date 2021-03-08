@@ -9,7 +9,7 @@
 	<select id="getList" parameterType="usersDto" resultType="usersDto">
 		SELECT *
 		FROM (SELECT result1.*, ROWNUM AS rnum
-			FROM (SELECT name, id, email, useraddr1, useraddr2, useraddr3, TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일"') as regdate, grade
+			FROM (SELECT name, id, email, useraddr1, useraddr2, useraddr3, TO_CHAR(regdate , 'YYYY-MM-DD') as regdate, grade
 				FROM users
 				<choose>
 					<when test="name != null">
@@ -56,7 +56,8 @@
 </select>
 	<select id="getGrade" parameterType="String" resultType="String">
 		SELECT grade
-=======
+		FROM users
+		WHERE id=#{id}
 	</select>
 	<update id="updatePwd" parameterType="usersDto">
 		UPDATE users
@@ -74,14 +75,14 @@
 	</delete>
 	<select id="getData" parameterType="String" resultType="usersDto">
 		SELECT id, pwd, email, userAddr1, userAddr2, userAddr3,
-		TO_CHAR(regdate, 'YY.MM.DD HH24:MI') AS regdate
+		TO_CHAR(regdate, 'YY-MM-DD HH24:MI') AS regdate
 		FROM users
 		WHERE id=#{id}
 	</select>
 	<insert id="insert" parameterType="usersDto">
 		INSERT INTO users
-		(name, id, pwd, email, userAddr1, userAddr2, userAddr3, regdate)
-		VALUES(#{name}, #{id}, #{pwd}, #{email}, #{userAddr1}, #{userAddr2}, #{userAddr3}, SYSDATE)
+		(name, id, pwd, email, userAddr1, userAddr2, userAddr3, regdate, grade)
+		VALUES(#{name}, #{id}, #{pwd}, #{email}, #{userAddr1}, #{userAddr2}, #{userAddr3}, SYSDATE, "user")
 	</insert>
 	<select id="isExist" parameterType="String" resultType="usersDto">
 		SELECT *

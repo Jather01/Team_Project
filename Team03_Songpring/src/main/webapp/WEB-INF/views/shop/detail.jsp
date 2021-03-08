@@ -112,6 +112,10 @@
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
 	</div>
+	<c:if test="${isManager}">
+		<a class="btn btn-secondary" href="manager/updateform.do?num=${shopDto.num }">책 정보 수정</a>
+		<a class="btn btn-secondary" href="manager/delete.do?num=${shopDto.num }">책 정보 삭제</a>
+	</c:if>
 	<!-- 원글에 리뷰를 작성하는 form -->
 	<form class="review-form insert-form" action="private/review_insert.do" method="post">
 		<!-- 원글의 글번호가 bookNum 번호가 된다. -->

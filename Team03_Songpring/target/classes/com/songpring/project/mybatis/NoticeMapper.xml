@@ -27,7 +27,7 @@
 		FROM
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM
-				(SELECT num,title,content,TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일 "') as regdate
+				(SELECT num,title,content,TO_CHAR(regdate , 'YYYY-MM-DD') as regdate
 				FROM songpring_notice
 				<choose>
 					<when test="content != null">
@@ -46,7 +46,7 @@
 		VALUES(songpring_notice_seq.NEXTVAL, #{title}, #{content}, SYSDATE)
 	</insert>
 	<select id="getData" parameterType="int" resultType="noticeDto">
-		SELECT num,title,content,TO_CHAR(regdate , 'YYYY"년 "MM"월 "DD"일 "HH24"시"MI"분"') as regdate
+		SELECT num,title,content,TO_CHAR(regdate , 'YYYY-MM-DD HH24:MI') as regdate
 		FROM songpring_notice
 		WHERE num=#{num}
 	</select>

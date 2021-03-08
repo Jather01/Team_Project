@@ -27,24 +27,24 @@ public class ShopController {
 	private ShopService service;
 	
 	// 책 판매 종료
-	@RequestMapping("/shop/private/delete")
+	@RequestMapping("/shop/manager/delete")
 	public String delete(@RequestParam int num) {
 		service.deleteBook(num);
-		return "shop/private/delete";
+		return "shop/manager/delete";
 	}
 	// 책 정보 수정 폼
-	@RequestMapping("/shop/private/updateform")
+	@RequestMapping("/shop/manager/updateform")
 	public ModelAndView updateform(@RequestParam int num, HttpServletRequest request, ModelAndView mView) {
 		service.getDetail(num, request, mView);
-		mView.setViewName("shop/private/updateform");
+		mView.setViewName("shop/manager/updateform");
 		return mView;
 	}
 	// 책 정보 수정
-	@RequestMapping(value = "/shop/private/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/shop/manager/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute("dto") ShopDto dto, HttpServletRequest request) {
 		request.setAttribute("num", dto.getNum());
 		service.updateBook(dto);
-		return "shop/private/update";
+		return "shop/manager/update";
 	}
 	// 책 상세 페이지
 	@RequestMapping("/shop/detail")
@@ -70,19 +70,19 @@ public class ShopController {
 		return mView;
 	}
 	// 책 판매 업로드
-	@RequestMapping(value = "/shop/private/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/shop/manager/upload", method = RequestMethod.POST)
 	public String upload(ShopDto dto, HttpSession session) {
 		//서비스를 통해서 새글을 DB 에저장
 		service.saveBook(dto);
-		return "shop/private/upload";
+		return "shop/manager/upload";
 	}
 	// 책 판매 업로드폼
-	@RequestMapping("/shop/private/uploadform")
+	@RequestMapping("/shop/manager/uploadform")
 	public String uploadform() {
-		return "shop/private/uploadform";
+		return "shop/manager/uploadform";
 	}
 	// 사진 미리보기
-	@RequestMapping(value = "/shop/private/ajax_upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/shop/manager/ajax_upload", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request){
 		//업로드된 이미지를 upload 폴더에 저장하고 경로를 리턴 받는다.

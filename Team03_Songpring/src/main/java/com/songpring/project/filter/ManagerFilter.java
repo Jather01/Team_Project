@@ -17,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.songpring.project.users.dao.UsersDao;
 
-@WebFilter(urlPatterns = {"/cafe/manager/*"})
+@WebFilter(urlPatterns = {"/notice/manager/*", "/qna/manager/*", "/shop/manager/*", "/users/manager/*"})
 public class ManagerFilter implements Filter{
-	
 	@Autowired
 	private UsersDao dao;
 	
@@ -34,8 +33,8 @@ public class ManagerFilter implements Filter{
 		//로그인된 아이디가 있는지 읽어와 본다.
 		String id=(String)session.getAttribute("id");
 		//로그인된 아이디가 관리자의 아이디인지 확인한다.
-		String grade=dao.getGrade(id);
-		if(id == null || !grade.equals("manager")) {
+		String userGrade=(String)session.getAttribute("userGrade");
+		if(id == null || !userGrade.equals("manager")){
 			// 로그인을 하지 않았거나 관리자 계정이 아니면 로그인 폼으로 이동할 수 있도록 리다일렉트 응답을 준다.
 			String cPath=req.getContextPath();
 			// ServletResponse type 을 HttpServletResponse type 으로 casting

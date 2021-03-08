@@ -6,7 +6,7 @@
 		FROM
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM
-				(SELECT num, writer, content, TO_CHAR(regdate , 'YY"년 "MM"월 "DD"일" HH24:MI') as regdate
+				(SELECT num, writer, content, TO_CHAR(regdate , 'YYYY-MM-DD HH24:MI') as regdate
 				FROM songpring_review
 				WHERE booknum=#{bookNum}
 				ORDER BY num ASC) result1)
@@ -27,7 +27,7 @@
 		WHERE num=#{num}
 	</delete>
 	<select id="getData" parameterType="int" resultType="reviewDto">
-		SELECT num, writer, content, TO_CHAR(regdate , 'YY"년 "MM"월 "DD"일" HH24:MI') as regdate
+		SELECT num, writer, content, TO_CHAR(regdate , 'YYYY-MM-DD HH24:MI') as regdate
 		FROM songpring_review
 		WHERE num=#{num}
 	</select>

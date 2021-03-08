@@ -2,6 +2,7 @@ package com.songpring.project.shop.service;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.songpring.project.shop.dao.ShopDao;
 import com.songpring.project.shop.dao.ShopReviewDao;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
+import com.songpring.project.users.dao.UsersDao;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -24,6 +26,8 @@ public class ShopServiceImpl implements ShopService {
 	private ShopDao shopDao;
 	@Autowired
 	private ShopReviewDao reviewDao;
+	@Autowired
+	private UsersDao usersDao;
 
 	@Override
 	public void saveBook(ShopDto dto) {
@@ -162,6 +166,9 @@ public class ShopServiceImpl implements ShopService {
 		if(endPageNum > totalPageCount){
 			endPageNum=totalPageCount; //보정해 준다. 
 		}
+		String id=(String) request.getSession().getAttribute("id");
+		String grade=usersDao.getGrade(id);
+		boolean isManager=grade.equals("manager");
 		
 		//view page 에서 필요한 내용을 ModelAndView 객체에 담아준다
 		mView.addObject("reviewList", reviewList);
@@ -170,8 +177,8 @@ public class ShopServiceImpl implements ShopService {
 		mView.addObject("endPageNum", endPageNum);
 		mView.addObject("totalPageCount", totalPageCount);
 		mView.addObject("totalRow", totalRow);
-		//글정보를 ModelAndView 객체에 담고
 		mView.addObject("shopDto", shopDto);
+		mView.addObject("isManager",isManager);
 	}
 	@Override
 	public void updateBook(ShopDto dto) {
