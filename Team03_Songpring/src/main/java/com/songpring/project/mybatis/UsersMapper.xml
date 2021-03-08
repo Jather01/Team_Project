@@ -56,6 +56,50 @@
 </select>
 	<select id="getGrade" parameterType="String" resultType="String">
 		SELECT grade
+=======
+	</select>
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE users
+		SET pwd=#{newPwd}
+		WHERE id=#{id}
+	</update>
+	<update id="update" parameterType="usersDto">
+		UPDATE users
+		SET email=#{email}, userAddr1=#{userAddr1}, userAddr2=#{userAddr2}, userAddr3=#{userAddr3}
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="String">
+		DELETE FROM users
+		WHERE id=#{id}
+	</delete>
+	<select id="getData" parameterType="String" resultType="usersDto">
+		SELECT id, pwd, email, userAddr1, userAddr2, userAddr3,
+		TO_CHAR(regdate, 'YY.MM.DD HH24:MI') AS regdate
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<insert id="insert" parameterType="usersDto">
+		INSERT INTO users
+		(name, id, pwd, email, userAddr1, userAddr2, userAddr3, regdate)
+		VALUES(#{name}, #{id}, #{pwd}, #{email}, #{userAddr1}, #{userAddr2}, #{userAddr3}, SYSDATE)
+	</insert>
+	<select id="isExist" parameterType="String" resultType="usersDto">
+		SELECT *
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<select id="getPwd" parameterType="String" resultType="String">
+		SELECT pwd
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<select id="findid" parameterType="String" resultType="usersDto">
+		SELECT id, name
+		FROM users
+		WHERE email=#{email}
+	</select>
+	<select id="findpwd" parameterType="String" resultType="usersDto">
+		SELECT id, pwd
 		FROM users
 		WHERE id=#{id}
 	</select>
