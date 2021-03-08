@@ -29,4 +29,9 @@ public class UsersDaoImpl implements UsersDao{
 		int count=session.selectOne("users.getCount", dto);
 		return count;
 	}
+	@Override
+	public String getGrade(String id) {
+		String grade=session.selectOne("users.getGrade",id);
+		return grade;
+	}
 }

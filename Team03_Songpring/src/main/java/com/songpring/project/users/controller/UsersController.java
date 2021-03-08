@@ -14,6 +14,12 @@ import com.songpring.project.users.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService service;
+
+	@RequestMapping("/users/testlogout")
+	public String testLogout(HttpSession session) {
+		session.removeAttribute("id");
+		return "users/testlogout";
+	}
 	
 	@RequestMapping("/users/testlogin")
 	public String testLogin(HttpSession session) {

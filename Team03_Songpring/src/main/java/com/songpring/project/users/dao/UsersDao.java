@@ -11,4 +11,6 @@ public interface UsersDao {
 	public List<UsersDto> getList(UsersDto dto);
 	// 회원 수
 	public int getCount(UsersDto dto);
+	// 권한 확인
+	public String getGrade(String id);
 }

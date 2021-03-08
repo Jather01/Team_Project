@@ -28,7 +28,6 @@ public class LoginFilter implements Filter{
 			FilterChain chain)
 			throws IOException, ServletException {
 		//1. 로그인된 클라이언트인지 확인한다.
-		
 		//부모 type 을 자식 type 으로 casting!
 		HttpServletRequest req=(HttpServletRequest)request;
 		//자식 type 을 이용해서 HttpSession 객체의 참조값을 얻어낸다.

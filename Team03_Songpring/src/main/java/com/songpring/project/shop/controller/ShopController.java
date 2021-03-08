@@ -41,7 +41,8 @@ public class ShopController {
 	}
 	// 책 정보 수정
 	@RequestMapping(value = "/shop/private/update", method = RequestMethod.POST)
-	public String update(@ModelAttribute("dto") ShopDto dto) {
+	public String update(@ModelAttribute("dto") ShopDto dto, HttpServletRequest request) {
+		request.setAttribute("num", dto.getNum());
 		service.updateBook(dto);
 		return "shop/private/update";
 	}

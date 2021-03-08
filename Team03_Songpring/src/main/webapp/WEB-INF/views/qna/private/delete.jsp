@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>shop/manager/delete.jsp</title>
+<title>qna/private/delete.jsp</title>
 </head>
 <body>
 	<script>
-		alert("판매 요청이 삭제 되었습니다.");
-		location.href="${pageContext.request.contextPath }/shop/list1.do";
+		alert("문의가 삭제 되었습니다.");
+		location.href="${pageContext.request.contextPath }/qna/list.do";
 	</script>
 </body>
 </html>

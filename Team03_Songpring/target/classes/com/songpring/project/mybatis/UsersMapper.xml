@@ -54,4 +54,9 @@
 			</when>
 		</choose>
 </select>
+	<select id="getGrade" parameterType="String" resultType="String">
+		SELECT grade
+		FROM users
+		WHERE id=#{id}
+	</select>
 </mapper>

@@ -34,7 +34,8 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/manager/update")
-	public String update(NoticeDto dto) {
+	public String update(NoticeDto dto, HttpServletRequest request) {
+		request.setAttribute("num", dto.getNum());
 		service.updateNotice(dto);
 		return "notice/manager/update";
 	}

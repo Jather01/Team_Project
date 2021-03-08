@@ -147,7 +147,7 @@ public class ShopServiceImpl implements ShopService {
 		dto.setEndRowNum(endRowNum);
 		
 		//ArrayList 객체의 참조값을 담을 지역변수를 미리 만든다.
-		List<ShopReviewDto> list=reviewDao.getList(dto);
+		List<ShopReviewDto> reviewList=reviewDao.getList(dto);
 		//전체 row 의 갯수를 담을 지역변수를 미리 만든다.
 		int totalRow=reviewDao.getCount(num);
 		
@@ -164,7 +164,7 @@ public class ShopServiceImpl implements ShopService {
 		}
 		
 		//view page 에서 필요한 내용을 ModelAndView 객체에 담아준다
-		mView.addObject("list", list);
+		mView.addObject("reviewList", reviewList);
 		mView.addObject("pageNum", pageNum);
 		mView.addObject("startPageNum", startPageNum);
 		mView.addObject("endPageNum", endPageNum);

@@ -17,7 +17,7 @@
 		padding-left: 10px;
 		padding-right: 10px;
 	}
-	/* ul 요소의 기본 스타일 제거 */
+	/* 리뷰 글 스타일 */
 	.reviews ul{
 		padding: 0;
 		margin: 0;
@@ -112,59 +112,40 @@
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
 	</div>
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item" role="presentation">
-		<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review"
-			role="tab" aria-controls="review" aria-selected="true">Review</a>
-		</li>
-		<li class="nav-item" role="presentation">
-		<a class="nav-link" id="QnA-tab" data-toggle="tab" href="#QnA"
-			role="tab" aria-controls="QnA" aria-selected="false">Q&A</a>
-		</li>
-	</ul>
-	<div class="tab-content" id="myTabContent">
-		<div class="tab-pane fade show active" id="review" role="tabpanel"
-			aria-labelledby="review-tab">
-			<!-- 원글에 리뷰를 작성하는 form -->
-			<form class="review-form insert-form" action="private/review_insert.do" method="post">
-				<!-- 원글의 글번호가 bookNum 번호가 된다. -->
-				<input type="hidden" name="bookNum" value="${shopDto.num }"/>
-				<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
-				<button type="submit">등록</button>
-			</form>
-			<!-- 댓글 목록 -->
-			<div class="reviews">
-				<ul>
-					<c:forEach var="tmp" items="${list }">
-						<li id="review${tmp.num }" style="padding-left:50px;">
-							<dl>
-								<dt>
-									<span>${tmp.writer }</span>
-									<span>${tmp.regdate }</span>
-									<c:if test="${tmp.writer eq id }">
-										| <a data-num="${tmp.num }" href="javascript:" class="review-update-link">수정</a>
-										| <a data-num="${tmp.num }" href="javascript:" class="review-delete-link">삭제</a>
-									</c:if>
-								</dt>
-								<dd><pre>${tmp.content }</pre></dd>
-							</dl>
-							<!-- 로그인된 아이디와 리뷰의 작성자가 같으면 수정 폼 출력 -->
+	<!-- 원글에 리뷰를 작성하는 form -->
+	<form class="review-form insert-form" action="private/review_insert.do" method="post">
+		<!-- 원글의 글번호가 bookNum 번호가 된다. -->
+		<input type="hidden" name="bookNum" value="${shopDto.num }"/>
+		<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
+		<button type="submit">등록</button>
+	</form>
+	<!-- 리뷰 목록 -->
+	<div class="reviews">
+		<ul>
+			<c:forEach var="tmp" items="${reviewList }">
+				<li id="review${tmp.num }" style="padding-left:50px;">
+					<dl>
+						<dt>
+							<span>${tmp.writer }</span>
+							<span>${tmp.regdate }</span>
 							<c:if test="${tmp.writer eq id }">
-								<form class="review-form update-form" action="private/review_update.do" method="post">
-									<input type="hidden" name="num" value="${tmp.num }"/>
-									<textarea name="content">${tmp.content }</textarea>
-									<button type="submit">수정</button>
-								</form>
+								| <a data-num="${tmp.num }" href="javascript:" class="review-update-link">수정</a>
+								| <a data-num="${tmp.num }" href="javascript:" class="review-delete-link">삭제</a>
 							</c:if>
-						</li>
-					</c:forEach>
-				</ul>
-			</div>
-		</div>
-		<div class="tab-pane fade" id="QnA" role="tabpanel"
-			aria-labelledby="QnA-tab">
-			
-		</div>
+						</dt>
+						<dd><pre>${tmp.content }</pre></dd>
+					</dl>
+					<!-- 로그인된 아이디와 리뷰의 작성자가 같으면 수정 폼 출력 -->
+					<c:if test="${tmp.writer eq id }">
+						<form class="review-form update-form" action="private/review_update.do" method="post">
+							<input type="hidden" name="num" value="${tmp.num }"/>
+							<textarea name="content">${tmp.content }</textarea>
+							<button type="submit">수정</button>
+						</form>
+					</c:if>
+				</li>
+			</c:forEach>
+		</ul>
 	</div>
 </div>
 <script>
