@@ -167,6 +167,11 @@ public class ShopServiceImpl implements ShopService {
 			endPageNum=totalPageCount; //보정해 준다. 
 		}
 		String id=(String) request.getSession().getAttribute("id");
+		if(id!=null) {
+			dto.setWriter(id);
+			int checkReviewCount=reviewDao.checkReviewCount(dto);
+			mView.addObject("checkReviewCount", checkReviewCount);
+		}
 		//view page 에서 필요한 내용을 ModelAndView 객체에 담아준다
 		mView.addObject("reviewList", reviewList);
 		mView.addObject("pageNum", pageNum);

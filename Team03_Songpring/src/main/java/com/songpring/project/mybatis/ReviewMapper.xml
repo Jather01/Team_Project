@@ -36,4 +36,9 @@
 		FROM songpring_review
 		WHERE bookNum=#{bookNum}
 	</select>
+	<select id="checkReviewCount" parameterType="reviewDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM songpring_review
+		WHERE bookNum=#{bookNum} AND writer=#{writer}
+	</select>
 </mapper>

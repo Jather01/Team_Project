@@ -120,7 +120,17 @@
 	<form class="review-form insert-form" action="private/review_insert.do" method="post">
 		<!-- 원글의 글번호가 bookNum 번호가 된다. -->
 		<input type="hidden" name="bookNum" value="${shopDto.num }"/>
-		<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
+		<c:choose>
+			<c:when test="${empty id }">
+				<textarea name="content" disabled>로그인이 필요합니다.</textarea>
+			</c:when>
+			<c:when test="${checkReviewCount ge 1 }">
+				<textarea name="content" disabled>이미 리뷰를 작성하셨습니다.</textarea>
+			</c:when>
+			<c:otherwise>
+				<textarea name="content"></textarea>
+			</c:otherwise>
+		</c:choose>
 		<button type="submit">등록</button>
 	</form>
 	<!-- 리뷰 목록 -->
@@ -227,11 +237,16 @@
 	$(document).on("submit",".insert-form", function(){
 		//로그인 여부
 		var isLogin=${not empty id};
+		var isReview=${checkReviewCount ge 1}
 		if(isLogin == false){
-			alert("로그인 페이지로 이동합니다.")
+			alert("로그인 페이지로 이동합니다.");
 			location.href="${pageContext.request.contextPath }/users/loginform.do?"+
 					"url=${pageContext.request.contextPath }/shop/detail.do?num=${shopDto.num}";
 			return false; //폼 전송 막기 		
+		}
+		if(isReview == true){
+			alert("이미 리뷰를 작성하셨습니다.");
+			return false;
 		}
 	});
 	function deleteReview(num){
