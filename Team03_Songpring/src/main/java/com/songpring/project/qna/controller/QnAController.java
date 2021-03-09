@@ -59,4 +59,16 @@ public class QnAController {
 		mView.setViewName("qna/detail");
 		return mView;
 	}
+
+	@RequestMapping("/qna/manager/comment_update")
+	public String commentUpdate(QnADto dto, int num) {
+		service.commentUpdate(dto);
+		return "redirect:/qna/detail.do?num="+num;
+	}
+
+	@RequestMapping("/qna/manager/comment_delete")
+	public String commentDelete(int num) {
+		service.commentDelete(num);
+		return "redirect:/qna/detail.do?num="+num;
+	}
 }

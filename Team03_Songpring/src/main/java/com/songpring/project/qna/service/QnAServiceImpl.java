@@ -24,7 +24,12 @@ public class QnAServiceImpl implements QnAService{
 
 	@Override
 	public void saveQnA(QnADto dto) {
-		if(!dto.getSecret().equals("yes")) {
+		String secret=dto.getSecret();
+		if(secret!=null) {
+			if(!secret.equals("yes")) {
+				dto.setSecret("no");
+			}
+		} else {
 			dto.setSecret("no");
 		}
 		dao.insert(dto);
@@ -131,5 +136,15 @@ public class QnAServiceImpl implements QnAService{
 		mView.addObject("keyword", keyword);
 		mView.addObject("encodedK", encodedK);
 		mView.addObject("totalRow", totalRow);
+	}
+
+	@Override
+	public void commentUpdate(QnADto dto) {
+		dao.commentUpdate(dto);
+	}
+
+	@Override
+	public void commentDelete(int num) {
+		dao.commentDelete(num);
 	}
 }
