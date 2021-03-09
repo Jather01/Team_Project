@@ -112,7 +112,7 @@
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
 	</div>
-	<c:if test="${isManager}">
+	<c:if test="${sessionScope.userGrade eq 'manager'}">
 		<a class="btn btn-secondary" href="manager/updateform.do?num=${shopDto.num }">책 정보 수정</a>
 		<a class="btn btn-secondary" href="manager/delete.do?num=${shopDto.num }">책 정보 삭제</a>
 	</c:if>

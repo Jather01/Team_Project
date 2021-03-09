@@ -46,4 +46,14 @@ public class QnADaoImpl implements QnADao{
 		return count;
 	}
 
+	@Override
+	public void commentUpdate(QnADto dto) {
+		session.update("qna.commentUpdate", dto);
+	}
+
+	@Override
+	public void commentDelete(int num) {
+		session.update("qna.commentDelete", num);
+	}
+
 }

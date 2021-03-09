@@ -39,7 +39,7 @@ public class ManagerFilter implements Filter{
 			String cPath=req.getContextPath();
 			// ServletResponse type 을 HttpServletResponse type 으로 casting
 			HttpServletResponse res=(HttpServletResponse)response;
-			res.sendRedirect(cPath+"/manager_error.do");
+			res.sendRedirect(cPath+"/error/manager_error.do");
 		}else {
 			chain.doFilter(request, response);
 		}

@@ -17,4 +17,8 @@ public interface QnAService {
 	public void getDetail(int num, ModelAndView mView);
 	// 문의 목록
 	public void getList(ModelAndView mView, HttpServletRequest request);
+	// 답변 추가&수정
+	public void commentUpdate(QnADto dto);
+	// 답변 삭제
+	public void commentDelete(int num);
 }

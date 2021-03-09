@@ -28,6 +28,7 @@ public class UsersController {
 	@RequestMapping("/users/testlogout")
 	public String testLogout(HttpSession session) {
 		session.removeAttribute("id");
+		session.removeAttribute("userGrade");
 		return "users/testlogout";
 	}
 	

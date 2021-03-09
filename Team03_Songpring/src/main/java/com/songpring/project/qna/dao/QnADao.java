@@ -17,4 +17,8 @@ public interface QnADao {
 	public List<QnADto> getList(QnADto dto);
 	//문의의 갯수 얻어오기(검색 키워드에 해당하는 갯수)
 	public int getCount(QnADto dto);
+	//답변 추가&수정
+	public void commentUpdate(QnADto dto);
+	//답변 삭제
+	public void commentDelete(int num);
 }
