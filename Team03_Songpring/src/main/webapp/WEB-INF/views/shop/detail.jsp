@@ -151,6 +151,39 @@
 			</c:forEach>
 		</ul>
 	</div>
+	<nav>
+	<ul class="pagination justify-content-center">
+		<c:choose>
+			<c:when test="${startPageNum ne 1 }">
+				<li class="page-item">
+					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${startPageNum-1 }">&laquo;</a>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+					<a class="page-link" href="javascript:">&laquo;</a>
+				</li>
+			</c:otherwise>
+		</c:choose>
+		<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+			<li class="page-item ${i eq pageNum? 'active' : '' }">
+				<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${i}">${i}</a>
+			</li>
+		</c:forEach>
+		<c:choose>
+			<c:when test="${endPageNum ne totalPageCount }">
+				<li class="page-item">
+					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${endPageNum+1}">&raquo;</a>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+					<a class="page-link" href="javascript:">&raquo;</a>
+				</li>
+			</c:otherwise>
+		</c:choose>
+	</ul>
+</nav>
 </div>
 <script>
 	//댓글 수정 링크를 눌렀을때 호출되는 함수 등록

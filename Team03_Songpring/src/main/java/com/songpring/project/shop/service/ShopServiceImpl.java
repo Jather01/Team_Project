@@ -125,7 +125,7 @@ public class ShopServiceImpl implements ShopService {
 		//글번호를 이용해서 글정보를 얻어오고 
 		ShopDto shopDto=shopDao.getData(num);
 		//한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT=10;
+		final int PAGE_ROW_COUNT=20;
 		//하단 페이지를 몇개씩 표시할 것인지
 		final int PAGE_DISPLAY_COUNT=5;
 		
@@ -167,9 +167,6 @@ public class ShopServiceImpl implements ShopService {
 			endPageNum=totalPageCount; //보정해 준다. 
 		}
 		String id=(String) request.getSession().getAttribute("id");
-		String grade=usersDao.getGrade(id);
-		boolean isManager=grade.equals("manager");
-		
 		//view page 에서 필요한 내용을 ModelAndView 객체에 담아준다
 		mView.addObject("reviewList", reviewList);
 		mView.addObject("pageNum", pageNum);
@@ -178,7 +175,6 @@ public class ShopServiceImpl implements ShopService {
 		mView.addObject("totalPageCount", totalPageCount);
 		mView.addObject("totalRow", totalRow);
 		mView.addObject("shopDto", shopDto);
-		mView.addObject("isManager",isManager);
 	}
 	@Override
 	public void updateBook(ShopDto dto) {
