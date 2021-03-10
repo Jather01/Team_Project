@@ -4,8 +4,11 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,7 +19,7 @@ import com.songpring.project.users.dto.UsersDto;
 public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UsersDao dao;
-	
+
 	@Override
 	public void usersList(ModelAndView mView, HttpServletRequest request) {
 		// 한 페이지에 몇개씩 표시할 것인지
@@ -45,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 		String keyword = request.getParameter("keyword");
 		String condition = request.getParameter("condition");
 		String grade = request.getParameter("grade");
-		String order=request.getParameter("order");
+		String order = request.getParameter("order");
 		// 만일 키워드가 넘어오지 않는다면
 		if (keyword == null) {
 			// 키워드와 검색 조건에 빈 문자열을 넣어준다.
@@ -53,8 +56,10 @@ public class UsersServiceImpl implements UsersService {
 			keyword = "";
 			condition = "";
 		}
-		if(grade==null) grade="";
-		if(order==null) order="";
+		if (grade == null)
+			grade = "";
+		if (order == null)
+			order = "";
 
 		// 특수기호를 인코딩한 키워드를 미리 준비한다.
 		String encodedK = URLEncoder.encode(keyword);
@@ -78,8 +83,10 @@ public class UsersServiceImpl implements UsersService {
 				dto.setId(keyword);
 			} // 아이디 검색인 경우
 		}
-		if (!grade.equals("")) dto.setGrade(grade);
-		if (!order.equals("")) dto.setOrder(order);
+		if (!grade.equals(""))
+			dto.setGrade(grade);
+		if (!order.equals(""))
+			dto.setOrder(order);
 		// 글목록 얻어오기
 		list = dao.getList(dto);
 		// 글의 갯수
@@ -117,17 +124,67 @@ public class UsersServiceImpl implements UsersService {
 		String keyword = request.getParameter("keyword");
 		String condition = request.getParameter("condition");
 		String grade = request.getParameter("grade");
-		String order=request.getParameter("order");
-		UsersDto dto=new UsersDto();
-		String id=request.getParameter("id");
+		String order = request.getParameter("order");
+		UsersDto dto = new UsersDto();
+		String id = request.getParameter("id");
 		dto.setId(id);
 		dto.setGrade(grade);
-		int isSuccess=dao.updateGrade(dto);
+		int isSuccess = dao.updateGrade(dto);
 		mView.addObject("isSuccess", isSuccess);
 		mView.addObject("condition", condition);
 		mView.addObject("keyword", keyword);
 		mView.addObject("order", order);
 		mView.addObject("grade", grade);
 		mView.addObject("pageNum", pageNum);
+	}
+
+	@Override
+	public void updateUser(UsersDto dto, HttpSession session) {
+		// 로그인된 아이디를 읽어온다.
+		String id = (String) session.getAttribute("id");
+		// dto 에 담는다.
+		dto.setId(id);
+		// dao 를 이용해서 DB 에 수정 반영한다.
+		dao.update(dto);
+
+	}
+
+	@Override
+	public void updateUserPwd(ModelAndView mView, UsersDto dto, HttpSession session) {
+		// 로그인 된 아이디를 읽어와서
+		String id = (String) session.getAttribute("id");
+
+		// 아이디를 이용해서 암호화된 비밀번호를 SELECT 한다.
+		String savedPwd = dao.getPwd(id);
+
+		// 폼전송되는 예전 비밀번호와 일치하는지 확인한다.
+		boolean isValid = BCrypt.checkpw(dto.getPwd(), savedPwd);
+
+		// 2. 만일 맞다면
+		if (isValid) {
+			// 3. 새 비밀번호를 암호화해서
+			String newPwd = new BCryptPasswordEncoder().encode(dto.getNewPwd());
+			// 4. dto 에 아이디와 새 비밀번호를 담고
+			dto.setId(id);
+			dto.setNewPwd(newPwd);
+			// 5. 수정반영한다.
+			dao.updatePwd(dto);
+			// 로그아웃 처리를 한다.
+			session.removeAttribute("id");
+		}
+
+		// 성공 여부를 ModelAndView 객체에 담는다.
+		mView.addObject("isSuccess", isValid);
+
+	}
+	
+	@Override
+	public void deleteUser(HttpSession session) {
+		//로그인된 아이디를 읽어온다. 
+		String id=(String)session.getAttribute("id");
+		//DB 에서 삭제
+		dao.delete(id);
+		//로그아웃 처리
+		session.removeAttribute("id");
 	}
 }
