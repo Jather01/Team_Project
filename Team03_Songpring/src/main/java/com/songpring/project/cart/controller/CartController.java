@@ -1,101 +1,93 @@
 package com.songpring.project.cart.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.songpring.project.cart.dto.CartDto;
-import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.cart.service.CartService;
-import com.songpring.project.users.dto.UsersDto;
 
 @Controller
 public class CartController {
-	
+
 	@Autowired
 	private CartService cartService;
-	
-	//장바구니 등록
-	@RequestMapping(value = "addEnroll", method = RequestMethod.POST)
-	@ResponseBody 
-	public String  addCartPOST(CartDto cart, HttpSession session) throws Exception{
-		
-		System.out.println("addEnroll 진입");
-		
-		String result = "false";
-		
-		UsersDto member = (UsersDto)session.getAttribute("member");
-		System.out.println(member);
-		
-		if(member != null) { 
-			cart.setMemberId(member.getId());
-			cartService.cartenroll(cart); 
-			result = "true"; 
+
+	// 장바구니 추가
+	@RequestMapping("insert.do") // 세부적인 url mapping
+	public String insert(@ModelAttribute CartDto dto, HttpSession session) {
+		// 로그인 여부를 체크하기 위해 세션에 저장된 아이디 확인
+
+		String userid = (String) session.getAttribute("userid");
+		if (userid == null) {
+
+			// 로그인하지 않은 상태이면 로그인 화면으로 이동
+			return "redirect:/users/login.do";
 		}
-		System.out.println(result);
-		return result;
+		dto.setUserid(userid);
+		cartService.insert(dto); // 장바구니 테이블에 저장됨
+		return "redirect:/shop/cartlist.do"; // 장바구니 목록으로 이동
 	}
-	
-	//장바구니 목록 가져오기
-	@RequestMapping(value = "cart", method = RequestMethod.GET)
-	public String cartGET(HttpSession session, Model model) throws Exception{
-	UsersDto member = (UsersDto) session.getAttribute("member");
-	String memberId = member.getId();
-	System.out.println("memberId"+ memberId);
-	System.out.println("list" + cartService.cartList(memberId));
-	List<CartListDto> list = cartService.cartList(memberId);
-	model.addAttribute("clist",list);
-	
-	return "cart";
-}
-	//장바구니 상품 삭제하기
-	@RequestMapping(value="deleteCart", method = RequestMethod.POST)
-	@ResponseBody
-	public String deleteCart(HttpSession session, @RequestParam(value="chkbox[]") List<String> chkArr, CartDto cart)throws Exception{
+
+	// cart_list페이지와 맵핑되는 메소드
+	@RequestMapping("list.do")
+	public ModelAndView list(HttpSession session, ModelAndView mav) {
 		
-		System.out.println("delete cart");
-		
-		UsersDto member = (UsersDto)session.getAttribute("member");
-		String memberId = member.getId();
-		
-		String result = "0";
-		int cartId = 0;
-		
-		if(member != null) {
-			cart.setMemberId(memberId);
-			
-			for(String i : chkArr) {
-				cartId = Integer.parseInt(i);
-				cart.setCartId(cartId);
-				cartService.cartDelete(cart);
-			}
-			result = "1";
+		Map<String, Object> map = new HashMap<>();
+
+		String userid = (String) session.getAttribute("userid");
+
+		if (userid != null) {
+			// 로그인한 상태이면 실행
+			List<CartDto> list = cartService.listCart(userid);// 장바구니 목록
+			int sumMoney = cartService.sumMoney(userid);// 금액 합계
+			int fee = sumMoney >= 30000 ? 0 : 2500;
+
+			// 배송료 계산
+			// 30000원이 넘으면 배송료가 0원, 안넘으면 2500원
+
+			map.put("sumMoney", sumMoney);
+			map.put("fee", fee); // 배송료
+			map.put("sum", sumMoney + fee); // 전체 금액
+			map.put("list", list); // 장바구니 목록
+			map.put("count", list.size()); // 레코드 갯수
+
+			mav.setViewName("shop/cart_list"); // 이동할 페이지의 이름
+			mav.addObject("map", map); // 데이터 저장
+
+			return mav; // 화면 이동
+
+		} else { // 로그인하지 않은 상태
+
+			// 로그인하지 않은 상태이면 로그인 화면으로 이동
+			return new ModelAndView("member/private/login", "", null);
 		}
-		return result;
 	}
-	
-	//장바구니 수량 변경
-	@RequestMapping(value="stockChange", method=RequestMethod.POST)
-	@ResponseBody
-	public String stockChange(HttpSession session,CartDto cart) throws Exception{
-		
-		System.out.println("Stock Change");
-		UsersDto member = (UsersDto)session.getAttribute("member");
-		String result = "0";
-		
-		if(member != null) {
-			cartService.stockChange(cart);
-			
-			result = "1";
+
+	// 상품 삭제하기
+	@RequestMapping("delete.do")
+	public String delete(@RequestParam int cart_id) {
+		cartService.delete(cart_id);
+		return "redirect:/shop/cartlist.do";
+	}
+
+	// 전체 장바구니 비우기
+	@RequestMapping("deleteAll.do")
+	public String deleteAll(HttpSession session) {
+		String userid = (String) session.getAttribute("userid");
+		if (userid != null) {
+			cartService.deleteAll(userid);
 		}
-		return result;
+		return "redirect:/shop/cartlist.do";
 	}
+
 }

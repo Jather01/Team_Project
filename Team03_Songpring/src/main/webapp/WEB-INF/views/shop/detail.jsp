@@ -134,7 +134,7 @@
 		<button type="submit">등록</button>
 	</form>
 	<!-- 리뷰 목록 -->
-	<div class="reviews">
+	<div id="paging" class="reviews">
 		<ul>
 			<c:forEach var="tmp" items="${reviewList }">
 				<li id="review${tmp.num }" style="padding-left:50px;">
@@ -166,7 +166,7 @@
 		<c:choose>
 			<c:when test="${startPageNum ne 1 }">
 				<li class="page-item">
-					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${startPageNum-1 }">&laquo;</a>
+					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${startPageNum-1 }#paging">&laquo;</a>
 				</li>
 			</c:when>
 			<c:otherwise>
@@ -177,13 +177,13 @@
 		</c:choose>
 		<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 			<li class="page-item ${i eq pageNum? 'active' : '' }">
-				<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${i}">${i}</a>
+				<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${i}#paging">${i}</a>
 			</li>
 		</c:forEach>
 		<c:choose>
 			<c:when test="${endPageNum ne totalPageCount }">
 				<li class="page-item">
-					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${endPageNum+1}">&raquo;</a>
+					<a class="page-link" href="detail.do?num=${shopDto.num }&pageNum=${endPageNum+1}#paging">&raquo;</a>
 				</li>
 			</c:when>
 			<c:otherwise>

@@ -28,9 +28,8 @@ public interface UsersService {
 	public void getInfo(ModelAndView mView, HttpSession session);
 	//개인정보를 삭제처리 하는 메소드
 	public void deleteUser(HttpSession session);
-	//비밀번호 수정 처리를 하고 성붕여부를 ModelAndView 객체에다 담아주는 메소드
+	//비밀번호 수정 처리를 하고 성공여부를 ModelAndView 객체에다 담아주는 메소드
 	public void updateUserPwd(ModelAndView mView, UsersDto dto, HttpSession session);
-	
 	//프로필 이미지를 upload 폴더에 저장하고 저장된 파일명을 DB 에 저장하는 메소드
 	public void saveProfileImage(MultipartFile image, HttpServletRequest request);
 	//개인정보를 수정하는 메소드(여기에서는 이메일주소만)
