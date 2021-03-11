@@ -11,7 +11,7 @@
 <body>
 <div class="container">
 	<div class="pagination justify-content-center">
-		<form action="users_list.do" method="get">
+		<form action="users_list.do" method="post">
 			<select name="condition" id="condition">
 				<option value="name" ${condition eq 'name'? 'selected':'' }>이름</option>
 				<option value="id" ${condition eq 'id'? 'selected':'' }>아이디</option>

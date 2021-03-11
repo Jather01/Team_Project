@@ -57,7 +57,7 @@
 			<th>가입일</th>
 			<td>${dto.regdate }</td>
 		</tr>
-		<<tr>
+		<tr>
 			<th>주소</th>
 			<th>${dto.userAddr1 } ${dto.userAddr2 } ${dto.userAddr3 }</th>
 		</tr>

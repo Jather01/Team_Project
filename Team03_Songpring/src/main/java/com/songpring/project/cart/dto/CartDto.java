@@ -1,68 +1,78 @@
 package com.songpring.project.cart.dto;
 
 public class CartDto {
-	//카트 번호
-	private int cartId; 
-	//제품 아이디
-	private int productId;
-	//회원 아이디
-	private String memberId;
-	//장바구니 넣는 수량
-	private int cartStock;
-	//등록날짜
-	private String addDate;
-	
-	public CartDto() {}
-
-	public CartDto(int cartId, int productId, String memberId, int cartStock, String addDate) {
+	private int cart_id;
+    private String userid;
+    private String name;
+    private int product_id;
+    private String product_name;
+    private int price;
+    private int money;
+    private int amount;
+    
+	public CartDto(int cart_id, String userid, String name, int product_id, String product_name, int price, int money,
+			int amount) {
 		super();
-		this.cartId = cartId;
-		this.productId = productId;
-		this.memberId = memberId;
-		this.cartStock = cartStock;
-		this.addDate = addDate;
+		this.cart_id = cart_id;
+		this.userid = userid;
+		this.name = name;
+		this.product_id = product_id;
+		this.product_name = product_name;
+		this.price = price;
+		this.money = money;
+		this.amount = amount;
 	}
-
-	public int getCartId() {
-		return cartId;
+	public int getCart_id() {
+		return cart_id;
 	}
-
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
+	public void setCart_id(int cart_id) {
+		this.cart_id = cart_id;
 	}
-
-	public int getProductId() {
-		return productId;
+	public String getUserid() {
+		return userid;
 	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-
-	public String getMemberId() {
-		return memberId;
+	public String getName() {
+		return name;
 	}
-
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public int getCartStockt() {
-		return cartStock;
+	public int getProduct_id() {
+		return product_id;
 	}
-
-	public void setCartStock(int cartStock) {
-		this.cartStock = cartStock;
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
 	}
-
-	public String getAddDate() {
-		return addDate;
+	public String getProduct_name() {
+		return product_name;
 	}
-
-	public void setAddDate(String addDate) {
-		this.addDate = addDate;
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
-
-
-
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getMoney() {
+		return money;
+	}
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	@Override
+	public String toString() {
+		return "CartDto [cart_id=" + cart_id + ", userid=" + userid + ", name=" + name + ", product_id=" + product_id
+	                + ", product_name=" + product_name + ", price=" + price + ", money=" + money + ", amount=" + amount + "]";
+	}
 }

@@ -2,50 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 
-<!-- 장바구니 선택 리스트 -->
-<select id="buyList" parameterType="cartDto">
-        select @rownum:=@rownum+1 as rownum, 
-        	cartId, sjb_cart.productId,  memberId, cartStock, addDate , title, 
-			authorID, (select authorName from songpring_shop where songpring_shop.authorID=songpring_shop.authorID) as authorName, 
-			publisher, cateCode, (select cateName from songpring_shop where songpring_shop.cateCode=songpring_shop.cateCode) as cateName,
-			bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo, contents,
-			introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
-        from (select @rownum:=0) as rownum, songpring_cart 
-        join songpring_shop
-        on songpring_cart.productId = songpring_shop.songpring_shop.productID
-        where  cartId = #{cartId};
-</select>
+	<!-- 장바구니 목록 보기 -->
+	<select id="listCart" resultType="cartDto">
+		select cart_id, p.product_id, c.userid, name, product_name, amount, price,
+		(price*amount) money
 
-<!-- 장바구니 목록 보기 -->
-<select id="cartList" parameterType="cartDto">
-select @rownum:=@rownum+1 as rownum, 
-        cartId, sjb_cart.productId,  memberId, cartStock, addDate , title, 
-			authorID, (select authorName from songpring_shop where songpring_shop.authorID=songpring_shop.authorID) as authorName, 
-			publisher, cateCode, (select cateName from songpring_shop where songpring_shop.cateCode=songpring_shop.cateCode) as cateName,
-			bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo, contents,
-			introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
-        from (select @rownum:=0) as rownum, songpring_cart 
-        join sjb_book
-        on songpring_cart.productId = songpring_shop.productID
-        where sjb_cart.memberId = #{memberId};	  	  
-</select>
+		where m.userid=c.userid and c.product_id=p.product_id and
+		c.userid=#{userid} order by cart_id
+	</select>
 
+	<!-- 장바구니에 추가하기 -->
+	<insert id="insert">
+		insert into cart (cart_id, userid, product_id, amount)
+		values
+		(seq_cart.nextval, #{userid}, #{product_id}, #{amount} )
+	</insert>
 
-<!-- 장바구니에 추가하기 -->
- <insert id="cartEnroll" parameterType="cartDto">
-	insert into songpring_cart(productId, memberId, cartStock, addDate ) values(#{productId}, #{memberId}, #{cartStock}, sysdate());
-	<selectKey resultType="int" keyProperty="cartId" order="AFTER">
-        SELECT LAST_INSERT_ID()
-    </selectKey> 	
- </insert>
+	<!-- 장바구니 합계 -->
+	<select id="sumMoney" resultType="int">
 
-<!-- 장바구니에 수량 변경하기 -->
-<update id="stockChange" parameterType="cartDto">
-	update songpring_cart set cartStock = #{cartStock} where cartId = #{cartId};
-</update>
+		select nvl(sum(price*amount),0)
+		from cart c,product p
+		where c.product_id=p.product_id and userid=#{userid}
 
-<!-- 장바구니에 삭제하기 -->
-<delete id="cartDelete" parameterType="cartDto">
-		delete from songpring_cart where cartId = #{cartId} and memberId = #{memberId};
-</delete>
+	</select>
+	
+	<!-- 장바구니 개별 상품 삭제 -->
+    <delete id="delete">
+        delete from cart where cart_id=#{cart_id}
+    </delete>
+    
+    <!-- 장바구니 비우기 -->
+    <delete id="deleteAll">
+        delete from cart where userid=#{userid}
+        <!-- 장바구니테이블로부터 회원의 아이디와 삭제하고자하는 회원의 아이디가 같으면 장바구니에 있는 자료를 전부다 삭제 -->
+    </delete>
+    
 </mapper>

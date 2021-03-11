@@ -30,14 +30,12 @@
 			(SELECT num, title, imagePath, genre, writer, publisher, TO_CHAR(regdate , 'YYYY-MM') as regdate, price, content, sellCount, page, bookSize
 			FROM songpring_shop
 			<choose>
-				<when test="title != null">
+				<when test="title != null and genre == 'all'">
 					WHERE title LIKE '%'||#{title}||'%'
 				</when>
-				<when test="writer != null">
-					WHERE writer=#{writer}
-				</when>
-				<when test="publisher != null">
-					WHERE publisher=#{publisher}
+				<when test="title != null and genre != null">
+					WHERE title LIKE '%'||#{title}||'%'
+					AND genre=#{genre}
 				</when>
 				<when test="genre != null">
 					WHERE genre=#{genre}
@@ -66,17 +64,18 @@
 <select id="getCount" parameterType="shopDto" resultType="int">
 	SELECT NVL(MAX(ROWNUM), 0)
 	FROM songpring_shop
-	<choose>
-		<when test="title != null">
-			WHERE title LIKE '%'||#{title}||'%'
-		</when>
-		<when test="writer != null">
-			WHERE writer LIKE '%'||#{writer}||'%'
-		</when>
-		<when test="genre != null">
-			WHERE genre LIKE '%'||#{genre}||'%'
-		</when>
-	</choose>
+		<choose>
+			<when test="title != null and genre == 'all'">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="title != null and genre != null">
+				WHERE title LIKE '%'||#{title}||'%'
+				AND genre=#{genre}
+			</when>
+			<when test="genre != null">
+				WHERE genre=#{genre}
+			</when>
+		</choose>
 </select>
 <update id="addSellCount" parameterType="int">
 	UPDATE songpring_shop
