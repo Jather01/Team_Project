@@ -82,7 +82,7 @@
 	<insert id="insert" parameterType="usersDto">
 		INSERT INTO users
 		(name, id, pwd, email, userAddr1, userAddr2, userAddr3, regdate, grade)
-		VALUES(#{name}, #{id}, #{pwd}, #{email}, #{userAddr1}, #{userAddr2}, #{userAddr3}, SYSDATE, "user")
+		VALUES(#{name}, #{id}, #{pwd}, #{email}, #{userAddr1}, #{userAddr2}, #{userAddr3}, SYSDATE, 'user')
 	</insert>
 	<select id="isExist" parameterType="String" resultType="usersDto">
 		SELECT *

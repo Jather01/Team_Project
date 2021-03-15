@@ -105,6 +105,11 @@
 						</tr>
 					</tbody>
 				</table>
+				<form action="#" method="post">
+					<span>구매수량</span>
+					<input type="number" class="numBox" min="1" max="100" value="1"/>
+					<button type="submit" class="btn btn-primary">장바구니에 담기</button>
+				</form>
 			</div>
 		</div>
 	</div>

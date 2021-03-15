@@ -136,8 +136,6 @@ public class UsersController {
 	@RequestMapping("/users/loginform")
 	public ModelAndView loginform(HttpServletRequest request, 
 			ModelAndView mView) {
-		//로그인 폼에 관련된 로직을 서비스를 통해서 처리한다.
-		service.loginformLogic(request, mView);
 		//view page 정보도 담는다.
 		mView.setViewName("users/loginform");
 		//리턴
