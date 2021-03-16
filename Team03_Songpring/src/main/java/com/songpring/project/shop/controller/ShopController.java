@@ -1,6 +1,7 @@
 package com.songpring.project.shop.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,22 +18,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
 import com.songpring.project.shop.service.ShopService;
+import com.songpring.project.users.dto.UsersDto;
 
 @Controller
 public class ShopController {
 	// 의존객체 DI
 	@Autowired
 	private ShopService service;
-	
+
 	// 책 판매 종료
 	@RequestMapping("/shop/private/delete")
 	public String delete(@RequestParam int num) {
 		service.deleteBook(num);
 		return "shop/private/delete";
 	}
+
 	// 책 정보 수정 폼
 	@RequestMapping("/shop/private/updateform")
 	public ModelAndView updateform(@RequestParam int num, HttpServletRequest request, ModelAndView mView) {
@@ -39,21 +45,24 @@ public class ShopController {
 		mView.setViewName("shop/private/updateform");
 		return mView;
 	}
+
 	// 책 정보 수정
 	@RequestMapping(value = "/shop/private/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute("dto") ShopDto dto) {
 		service.updateBook(dto);
 		return "shop/private/update";
 	}
+
 	// 책 상세 페이지
 	@RequestMapping("/shop/detail")
 	public ModelAndView detail(@RequestParam int num, HttpServletRequest request, ModelAndView mView) {
-		//자세히 보여줄 글번호가 파라미터로 넘어온다.
+		// 자세히 보여줄 글번호가 파라미터로 넘어온다.
 		service.getDetail(num, request, mView);
-		//view page 로 forward 이동해서 응답
+		// view page 로 forward 이동해서 응답
 		mView.setViewName("shop/detail");
 		return mView;
 	}
+
 	// 책 목록
 	@RequestMapping("/shop/list1")
 	public ModelAndView list1(ModelAndView mView, HttpServletRequest request) {
@@ -61,6 +70,7 @@ public class ShopController {
 		mView.setViewName("shop/list1");
 		return mView;
 	}
+
 	// 책 목록
 	@RequestMapping("/shop/list2")
 	public ModelAndView list2(ModelAndView mView, HttpServletRequest request) {
@@ -68,58 +78,120 @@ public class ShopController {
 		mView.setViewName("shop/list2");
 		return mView;
 	}
+
 	// 책 판매 업로드
 	@RequestMapping(value = "/shop/private/upload", method = RequestMethod.POST)
 	public String upload(ShopDto dto, HttpSession session) {
-		//서비스를 통해서 새글을 DB 에저장
+		// 서비스를 통해서 새글을 DB 에저장
 		service.saveBook(dto);
 		return "shop/private/upload";
 	}
+
 	// 책 판매 업로드폼
 	@RequestMapping("/shop/private/uploadform")
 	public String uploadform() {
 		return "shop/private/uploadform";
 	}
+
 	// 사진 미리보기
 	@RequestMapping(value = "/shop/private/ajax_upload", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request){
-		//업로드된 이미지를 upload 폴더에 저장하고 경로를 리턴 받는다.
-		String imagePath=service.ajaxImage(image, request);
-		//저장된 경로를 JSON 문자열로 응답하기 위해 Map 에 담는다.
-		Map<String, Object> map=new HashMap<String, Object>();
+	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request) {
+		// 업로드된 이미지를 upload 폴더에 저장하고 경로를 리턴 받는다.
+		String imagePath = service.ajaxImage(image, request);
+		// 저장된 경로를 JSON 문자열로 응답하기 위해 Map 에 담는다.
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("imagePath", imagePath);
 		return map;
 	}
+
 	// 리뷰 등록
-	@RequestMapping(value = "/shop/private/review_insert", 
-			method = RequestMethod.POST)
-	public String reviewInsert(HttpServletRequest request,
-			@RequestParam int bookNum) {
-		//새 리뷰를 저장하고
+	@RequestMapping(value = "/shop/private/review_insert", method = RequestMethod.POST)
+	public String reviewInsert(HttpServletRequest request, @RequestParam int bookNum) {
+		// 새 리뷰를 저장하고
 		service.insertReview(request);
-		//글 자세히 보기로 다시 리다일렉트 이동 시킨다.
-		return "redirect:/shop/detail.do?num="+bookNum;
+		// 글 자세히 보기로 다시 리다일렉트 이동 시킨다.
+		return "redirect:/shop/detail.do?num=" + bookNum;
 	}
+
 	// 리뷰 수정
-	@RequestMapping(value = "/shop/private/review_update", 
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/shop/private/review_update", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> reviewUpdate(ShopReviewDto dto){
-		//댓글을 수정 반영하고 
+	public Map<String, Object> reviewUpdate(ShopReviewDto dto) {
+		// 댓글을 수정 반영하고
 		service.updateReview(dto);
-		//JSON 문자열을 클라이언트에게 응답한다.
-		Map<String, Object> map=new HashMap<>();
+		// JSON 문자열을 클라이언트에게 응답한다.
+		Map<String, Object> map = new HashMap<>();
 		map.put("num", dto.getNum());
 		map.put("content", dto.getContent());
 		return map;
 	}
+
 	// 리뷰 삭제
 	@RequestMapping("/shop/private/review_delete")
-	public ModelAndView commentDelete(HttpServletRequest request,
-			ModelAndView mView, @RequestParam int bookNum) {
+	public ModelAndView commentDelete(HttpServletRequest request, ModelAndView mView, @RequestParam int bookNum) {
 		service.deleteReview(request);
-		mView.setViewName("redirect:/shop/detail.do?num="+bookNum);
+		mView.setViewName("redirect:/shop/detail.do?num=" + bookNum);
 		return mView;
 	}
+
+	// 카트 담기
+	@ResponseBody
+	@RequestMapping(value = "/shop/private/addCart", method = RequestMethod.POST)
+	public int addCart(CartDto cart, HttpSession session) {
+
+		int result = 0;
+
+		UsersDto users = (UsersDto) session.getAttribute("users");
+
+		if (users != null) {
+			cart.setUserId(users.getId());
+			service.addCart(cart);
+			result = 1;
+		}
+
+		return result;
+	}
+
+	// 카트목록
+	@RequestMapping(value = "/shop/private/cartList", method = RequestMethod.GET)
+	public void getCartList(HttpSession session, Model model) {
+
+		UsersDto users = (UsersDto) session.getAttribute("users");
+		String userId = users.getId();
+
+		List<CartListDto> cartList = service.cartList(userId);
+
+		model.addAttribute("cartList", cartList);
+
+	}
+	
+	//카트 삭제
+	// 카트 삭제
+	@ResponseBody
+	@RequestMapping(value = "/shop/private/deleteCart", method = RequestMethod.POST)
+	public int deleteCart(HttpSession session,
+	     @RequestParam(value = "chbox[]") List<String> chArr, CartDto cart) throws Exception {
+	 
+	UsersDto users = (UsersDto) session.getAttribute("users");
+	String userId = users.getId();
+	
+	 int result = 0;
+	 int cartNum = 0;
+	 
+	 
+	 if(users != null) {
+	  cart.setUserId(userId);
+	  
+	  for(String i : chArr) {   
+	   cartNum = Integer.parseInt(i);
+	   cart.setCartNum(cartNum);
+	   service.deleteCart(cart);
+	  }   
+	  result = 1;
+	 }  
+	 return result;  
+	}
+	
+
 }

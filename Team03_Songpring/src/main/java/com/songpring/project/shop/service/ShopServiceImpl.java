@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.songpring.project.Exception.DBFailException;
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.shop.dao.ShopDao;
 import com.songpring.project.shop.dao.ShopReviewDao;
 import com.songpring.project.shop.dto.ShopDto;
@@ -241,5 +243,20 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void updateReview(ShopReviewDto dto) {
 		reviewDao.update(dto);
+	}
+	
+	@Override
+	public void addCart(CartDto cart) {
+		shopDao.addCart(cart);
+		
+	}
+	@Override
+	public List<CartListDto> cartList(String userId) {
+		return shopDao.cartList(userId);
+	}
+	@Override
+	public void deleteCart(CartDto cart) {
+		shopDao.deleteCart(cart);
+		
 	}
 }

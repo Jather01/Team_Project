@@ -1,10 +1,14 @@
 package com.songpring.project.shop.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
 
@@ -29,4 +33,10 @@ public interface ShopService {
 	public void deleteReview(HttpServletRequest request);
 	// 리뷰 수정
 	public void updateReview(ShopReviewDto dto);
+	//카트 담기
+	public void addCart(CartDto cart);
+	//카트 목록
+	public List<CartListDto> cartList(String userId);
+	//카트 삭제
+	public void deleteCart(CartDto cart);
 }

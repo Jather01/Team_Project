@@ -112,7 +112,41 @@
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
 		<a href="users/member/private/buy.do">구매하기</a>	
-		<a href="users/member/private/addcart.do">장바구니에 담기</a>
+		<!-- <a href="users/member/private/addcart.do">장바구니에 담기</a> -->
+		<p class="addToCart">
+ 	<button type="button" class="addCart_btn">카트에 담기</button>
+ 
+ 	<script>
+  	$(".addCart_btn").click(function(){
+   var gdsNum = $("#gdsNum").val();
+   var cartStock = $(".numBox").val();
+      
+   var data = {
+     gdsNum : gdsNum,
+     cartStock : cartStock
+     };
+   
+   $.ajax({
+    url : "/shop/private/addCart",
+    type : "post",
+    data : data,
+    success : function(result){
+    	  if(result == 1) {
+    		     alert("카트 담기 성공");
+    		     $(".numBox").val("1");
+    		    } else {
+    		     alert("회원만 사용할 수 있습니다.")
+    		     $(".numBox").val("1");
+    		    }
+    },
+    error : function(){
+     alert("카트 담기 실패");
+    }
+   });
+  });
+ </script>
+</p>
+		
 	</div>
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item" role="presentation">

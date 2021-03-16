@@ -2,6 +2,8 @@ package com.songpring.project.shop.dao;
 
 import java.util.List;
 
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.shop.dto.ShopDto;
 
 public interface ShopDao {
@@ -19,4 +21,10 @@ public interface ShopDao {
 	public int getCount(ShopDto dto);
 	//책 판매량 올리기
 	public void addSellCount(int num);
+	//카트 담기
+	public void addCart(CartDto cart);
+	//카트 리스트
+	public List<CartListDto> cartList(String userId);
+	//카트 삭제
+	public void deleteCart(CartDto cart);
 }

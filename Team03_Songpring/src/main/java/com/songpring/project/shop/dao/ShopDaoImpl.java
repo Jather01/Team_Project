@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
 import com.songpring.project.shop.dto.ShopDto;
 
 @Repository
@@ -50,5 +52,22 @@ public class ShopDaoImpl implements ShopDao{
 	@Override
 	public void addSellCount(int num) {
 		session.update("shop.addSellCount", num);
+	}
+
+	@Override
+	public void addCart(CartDto cart) {
+		session.insert("shop.addCart", cart);
+		
+	}
+
+	@Override
+	public List<CartListDto> cartList(String userId) {
+		return session.selectList("shop.cartList", userId);
+	}
+
+	@Override
+	public void deleteCart(CartDto cart) {
+		session.delete("shop.deleteCart",cart);
+		
 	}
 }
