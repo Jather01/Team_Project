@@ -8,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<script>
+		alert("장바구니에 추가 되었습니다.");
+		location.href="${pageContext.request.contextPath }/shop/list1.do";
+	</script>
 
 </body>
 </html>

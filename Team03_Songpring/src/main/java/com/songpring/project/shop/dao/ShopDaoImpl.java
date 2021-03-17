@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.songpring.project.cart.dto.CartDto;
 import com.songpring.project.cart.dto.CartListDto;
+import com.songpring.project.order.dto.OrderDetailDto;
+import com.songpring.project.order.dto.OrderDto;
 import com.songpring.project.shop.dto.ShopDto;
 
 @Repository
@@ -70,4 +72,22 @@ public class ShopDaoImpl implements ShopDao{
 		session.delete("shop.deleteCart",cart);
 		
 	}
+
+	@Override
+	public void orderInfo(OrderDto order) {
+		session.insert("shop.orderInfo", order);
+		
+	}
+
+	@Override
+	public void orderInfo_Details(OrderDetailDto orderDetail) {
+		session.insert("shop.orderInfo_Details", orderDetail);
+	}
+	
+	// 카트 비우기
+	@Override
+	public void cartAllDelete(String userId){
+		session.delete("shop.cartAllDelete", userId);
+	}
+	
 }

@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.songpring.project.Exception.DBFailException;
 import com.songpring.project.cart.dto.CartDto;
 import com.songpring.project.cart.dto.CartListDto;
+import com.songpring.project.order.dto.OrderDetailDto;
+import com.songpring.project.order.dto.OrderDto;
 import com.songpring.project.shop.dao.ShopDao;
 import com.songpring.project.shop.dao.ShopReviewDao;
 import com.songpring.project.shop.dto.ShopDto;
@@ -256,7 +258,19 @@ public class ShopServiceImpl implements ShopService {
 	}
 	@Override
 	public void deleteCart(CartDto cart) {
-		shopDao.deleteCart(cart);
-		
+		shopDao.deleteCart(cart);	
 	}
+	@Override
+	public void orderInfo(OrderDto order) {
+		shopDao.orderInfo(order);	
+	}
+	@Override
+	public void orderInfo_Details(OrderDetailDto orderDetail) {
+		shopDao.orderInfo_Details(orderDetail);		
+	}
+	// 카트 비우기 
+		@Override
+		public void cartAllDelete(String userId) {
+			shopDao.cartAllDelete(userId);
+		}
 }

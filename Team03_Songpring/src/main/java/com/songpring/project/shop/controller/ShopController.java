@@ -1,5 +1,7 @@
 package com.songpring.project.shop.controller;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.songpring.project.cart.dto.CartDto;
 import com.songpring.project.cart.dto.CartListDto;
+import com.songpring.project.order.dto.OrderDetailDto;
+import com.songpring.project.order.dto.OrderDto;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
 import com.songpring.project.shop.service.ShopService;
@@ -167,11 +171,9 @@ public class ShopController {
 	}
 	
 	//카트 삭제
-	// 카트 삭제
 	@ResponseBody
 	@RequestMapping(value = "/shop/private/deleteCart", method = RequestMethod.POST)
-	public int deleteCart(HttpSession session,
-	     @RequestParam(value = "chbox[]") List<String> chArr, CartDto cart) throws Exception {
+	public int deleteCart(HttpSession session, @RequestParam(value = "chbox[]") List<String> chArr, CartDto cart){
 	 
 	UsersDto users = (UsersDto) session.getAttribute("users");
 	String userId = users.getId();
@@ -191,6 +193,39 @@ public class ShopController {
 	  result = 1;
 	 }  
 	 return result;  
+	}
+	
+	//카트 상품 주문
+	@RequestMapping(value = "/shop/private/cartList", method = RequestMethod.POST)
+	public String order(HttpSession session, OrderDto order, OrderDetailDto orderDetail){
+	 
+	UsersDto users = (UsersDto) session.getAttribute("users");
+	String userId = users.getId();
+	
+	Calendar cal = Calendar.getInstance();
+	 int year = cal.get(Calendar.YEAR);
+	 String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+	 String ymd = ym +  new DecimalFormat("00").format(cal.get(Calendar.DATE));
+	 String subNum = "";
+	 
+	 for(int i = 1; i <= 6; i ++) {
+	  subNum += (int)(Math.random() * 10);
+	 }
+	 
+	 String orderId = ymd + "_" + subNum;
+	 
+	 order.setOrderId(orderId);
+	 order.setUserId(userId);
+	  
+	 
+	 service.orderInfo(order); 
+	 
+	 orderDetail.setOrderId(orderId);   
+	 service.orderInfo_Details(orderDetail); 
+	 
+	 service.cartAllDelete(userId);
+	 
+	 return "redirect:/shop/private/orderList";  
 	}
 	
 

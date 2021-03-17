@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,115 +8,132 @@
 <title>shop/detail.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
-	.img-wrapper {
-		width: 450px;
-		height: 600px;
-		object-fit: scale-down;
-	}
-	.img-div {
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-	/* ul 요소의 기본 스타일 제거 */
-	.reviews ul{
-		padding: 0;
-		margin: 0;
-		list-style-type: none;
-	}
-	.reviews dt{
-		margin-top: 5px;
-	}
-	.reviews dd{
-		margin-left: 50px;
-	}
-	.review-form textarea, .review-form button{
-		float: left;
-	}
-	.reviews li{
-		clear: left;
-	}
-	.reviews ul li{
-		border-top: 1px solid #888;
-	}
-	.review-form textarea{
-		width: 85%;
-		height: 100px;
-	}
-	.review-form button{
-		width: 15%;
-		height: 100px;
-	}
-	/* 댓글에 댓글을 다는 폼과 수정폼은 일단 숨긴다. */
-	.reviews .review-form{
-		display: none;
-	}
-	/* .reply_icon 을 li 요소를 기준으로 배치 하기 */
-	.reviews li{
-		position: relative;
-	}
-	pre {
-	  display: block;
-	  padding: 9.5px;
-	  margin: 0 0 10px;
-	  font-size: 13px;
-	  line-height: 1.42857143;
-	  color: #333333;
-	  word-break: break-all;
-	  word-wrap: break-word;
-	  background-color: #f5f5f5;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	}
+.img-wrapper {
+	width: 450px;
+	height: 600px;
+	object-fit: scale-down;
+}
+
+.img-div {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+/* ul 요소의 기본 스타일 제거 */
+.reviews ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.reviews dt {
+	margin-top: 5px;
+}
+
+.reviews dd {
+	margin-left: 50px;
+}
+
+.review-form textarea, .review-form button {
+	float: left;
+}
+
+.reviews li {
+	clear: left;
+}
+
+.reviews ul li {
+	border-top: 1px solid #888;
+}
+
+.review-form textarea {
+	width: 85%;
+	height: 100px;
+}
+
+.review-form button {
+	width: 15%;
+	height: 100px;
+}
+/* 댓글에 댓글을 다는 폼과 수정폼은 일단 숨긴다. */
+.reviews .review-form {
+	display: none;
+}
+/* .reply_icon 을 li 요소를 기준으로 배치 하기 */
+.reviews li {
+	position: relative;
+}
+
+pre {
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 13px;
+	line-height: 1.42857143;
+	color: #333333;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
 </style>
 </head>
 <body>
-<div class="container">
-	<div class="row no-gutters">
-		<div class="img-div">
-			<img class="img-wrapper" src="${pageContext.request.contextPath }${shopDto.imagePath}">
-		</div>
-		<div class="col-md-4 padding-10">
-			<div class="card-body">
-				<h3 class="card-title">[
-					<c:choose>
-						<c:when test="${shopDto.genre eq 'novel'}">소설</c:when>
-						<c:when test="${shopDto.genre eq 'culture'}">교양</c:when>
-						<c:when test="${shopDto.genre eq 'workbook'}">문제집</c:when>
-						<c:when test="${shopDto.genre eq 'comicbook'}">만화</c:when>
-						<c:when test="${shopDto.genre eq 'dictionary'}">사전</c:when>
-					</c:choose>
-					] ${shopDto.title }</h3>
-				<p class="card-text"><small>저자</small> ${shopDto.writer } | <small>출판</small> ${shopDto.publisher }</p>
-				<p class="card-text"><small>판매 수</small> ${shopDto.sellCount }</p>
-				<p class="card-text">${shopDto.price } 원</p>
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<th>출간일</th>
-							<td>${shopDto.regdate }</td>
-						</tr>
-						<tr>
-							<th>쪽수</th>
-							<td>${shopDto.page }쪽</td>
-						</tr>
-						<tr>
-							<th>크기</th>
-							<td>${shopDto.bookSize }mm</td>
-						</tr>
-					</tbody>
-				</table>
+	<div class="container">
+		<div class="row no-gutters">
+			<div class="img-div">
+				<img class="img-wrapper"
+					src="${pageContext.request.contextPath }${shopDto.imagePath}">
+			</div>
+			<div class="col-md-4 padding-10">
+				<div class="card-body">
+					<h3 class="card-title">
+						[
+						<c:choose>
+							<c:when test="${shopDto.genre eq 'novel'}">소설</c:when>
+							<c:when test="${shopDto.genre eq 'culture'}">교양</c:when>
+							<c:when test="${shopDto.genre eq 'workbook'}">문제집</c:when>
+							<c:when test="${shopDto.genre eq 'comicbook'}">만화</c:when>
+							<c:when test="${shopDto.genre eq 'dictionary'}">사전</c:when>
+						</c:choose>
+						] ${shopDto.title }
+					</h3>
+					<p class="card-text">
+						<small>저자</small> ${shopDto.writer } | <small>출판</small>
+						${shopDto.publisher }
+					</p>
+					<p class="card-text">
+						<small>판매 수</small> ${shopDto.sellCount }
+					</p>
+					<p class="card-text">${shopDto.price }원</p>
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th>출간일</th>
+								<td>${shopDto.regdate }</td>
+							</tr>
+							<tr>
+								<th>쪽수</th>
+								<td>${shopDto.page }쪽</td>
+							</tr>
+							<tr>
+								<th>크기</th>
+								<td>${shopDto.bookSize }mm</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div>
-		<h4>책 설명</h4>
-		<p>${shopDto.content }</p>
-		<a href="users/member/private/buy.do">구매하기</a>	
-		<!-- <a href="users/member/private/addcart.do">장바구니에 담기</a> -->
-		<p class="addToCart">
- 	<button type="button" class="addCart_btn">카트에 담기</button>
- 
- 	<script>
+		<div>
+			<h4>책 설명</h4>
+			<p>${shopDto.content }</p>
+			<a href="users/member/private/buy.do">구매하기</a>
+			<!-- <a href="users/member/private/addcart.do">장바구니에 담기</a> -->
+			<p class="addToCart">
+				<button type="button" class="addCart_btn">카트에 담기</button>
+
+				<script>
   	$(".addCart_btn").click(function(){
    var gdsNum = $("#gdsNum").val();
    var cartStock = $(".numBox").val();
@@ -145,65 +162,66 @@
    });
   });
  </script>
-</p>
-		
-	</div>
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item" role="presentation">
-		<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review"
-			role="tab" aria-controls="review" aria-selected="true">Review</a>
-		</li>
-		<li class="nav-item" role="presentation">
-		<a class="nav-link" id="QnA-tab" data-toggle="tab" href="#QnA"
-			role="tab" aria-controls="QnA" aria-selected="false">Q&A</a>
-		</li>
-	</ul>
-	<div class="tab-content" id="myTabContent">
-		<div class="tab-pane fade show active" id="review" role="tabpanel"
-			aria-labelledby="review-tab">
-			<!-- 원글에 리뷰를 작성하는 form -->
-			<form class="review-form insert-form" action="private/review_insert.do" method="post">
-				<!-- 원글의 글번호가 bookNum 번호가 된다. -->
-				<input type="hidden" name="bookNum" value="${shopDto.num }"/>
-				<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
-				<button type="submit">등록</button>
-			</form>
-			<!-- 댓글 목록 -->
-			<div class="reviews">
-				<ul>
-					<c:forEach var="tmp" items="${list }">
-						<li id="review${tmp.num }" style="padding-left:50px;">
-							<dl>
-								<dt>
-									<span>${tmp.writer }</span>
-									<span>${tmp.regdate }</span>
-									<c:if test="${tmp.writer eq id }">
-										| <a data-num="${tmp.num }" href="javascript:" class="review-update-link">수정</a>
-										| <a data-num="${tmp.num }" href="javascript:" class="review-delete-link">삭제</a>
-									</c:if>
-								</dt>
-								<dd><pre>${tmp.content }</pre></dd>
-							</dl>
-							<!-- 로그인된 아이디와 리뷰의 작성자가 같으면 수정 폼 출력 -->
-							<c:if test="${tmp.writer eq id }">
-								<form class="review-form update-form" action="private/review_update.do" method="post">
-									<input type="hidden" name="num" value="${tmp.num }"/>
-									<textarea name="content">${tmp.content }</textarea>
-									<button type="submit">수정</button>
-								</form>
-							</c:if>
-						</li>
-					</c:forEach>
-				</ul>
+			</p>
+
+		</div>
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation"><a
+				class="nav-link active" id="review-tab" data-toggle="tab"
+				href="#review" role="tab" aria-controls="review"
+				aria-selected="true">Review</a></li>
+			<li class="nav-item" role="presentation"><a class="nav-link"
+				id="QnA-tab" data-toggle="tab" href="#QnA" role="tab"
+				aria-controls="QnA" aria-selected="false">Q&A</a></li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="review" role="tabpanel"
+				aria-labelledby="review-tab">
+				<!-- 원글에 리뷰를 작성하는 form -->
+				<form class="review-form insert-form"
+					action="private/review_insert.do" method="post">
+					<!-- 원글의 글번호가 bookNum 번호가 된다. -->
+					<input type="hidden" name="bookNum" value="${shopDto.num }" />
+					<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
+					<button type="submit">등록</button>
+				</form>
+				<!-- 댓글 목록 -->
+				<div class="reviews">
+					<ul>
+						<c:forEach var="tmp" items="${list }">
+							<li id="review${tmp.num }" style="padding-left: 50px;">
+								<dl>
+									<dt>
+										<span>${tmp.writer }</span> <span>${tmp.regdate }</span>
+										<c:if test="${tmp.writer eq id }">
+										| <a data-num="${tmp.num }" href="javascript:"
+												class="review-update-link">수정</a>
+										| <a data-num="${tmp.num }" href="javascript:"
+												class="review-delete-link">삭제</a>
+										</c:if>
+									</dt>
+									<dd>
+										<pre>${tmp.content }</pre>
+									</dd>
+								</dl> <!-- 로그인된 아이디와 리뷰의 작성자가 같으면 수정 폼 출력 --> <c:if
+									test="${tmp.writer eq id }">
+									<form class="review-form update-form"
+										action="private/review_update.do" method="post">
+										<input type="hidden" name="num" value="${tmp.num }" />
+										<textarea name="content">${tmp.content }</textarea>
+										<button type="submit">수정</button>
+									</form>
+								</c:if>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
 			</div>
-		</div>
-		<div class="tab-pane fade" id="QnA" role="tabpanel"
-			aria-labelledby="QnA-tab">
-			
+			<div class="tab-pane fade" id="QnA" role="tabpanel"
+				aria-labelledby="QnA-tab"></div>
 		</div>
 	</div>
-</div>
-<script>
+	<script>
 	//댓글 수정 링크를 눌렀을때 호출되는 함수 등록
 	$(document).on("click",".review-update-link", function(){
 		/*

@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.songpring.project.cart.dto.CartDto;
 import com.songpring.project.cart.dto.CartListDto;
+import com.songpring.project.order.dto.OrderDetailDto;
+import com.songpring.project.order.dto.OrderDto;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
 
@@ -39,4 +41,10 @@ public interface ShopService {
 	public List<CartListDto> cartList(String userId);
 	//카트 삭제
 	public void deleteCart(CartDto cart);
+	// 주문 정보
+	public void orderInfo(OrderDto order);	
+	// 주문 상세 정보
+	public void orderInfo_Details(OrderDetailDto orderDetail);
+	// 카트 비우기
+	public void cartAllDelete(String userId);
 }
