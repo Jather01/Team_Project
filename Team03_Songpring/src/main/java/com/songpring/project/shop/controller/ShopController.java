@@ -1,6 +1,9 @@
 package com.songpring.project.shop.controller;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,9 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.songpring.project.cart.dto.CartDto;
+import com.songpring.project.cart.dto.CartListDto;
+import com.songpring.project.order.dto.OrderDetailDto;
+import com.songpring.project.order.dto.OrderDto;
 import com.songpring.project.shop.dto.ShopDto;
 import com.songpring.project.shop.dto.ShopReviewDto;
 import com.songpring.project.shop.service.ShopService;
+import com.songpring.project.users.dto.UsersDto;
 
 @Controller
 public class ShopController {
@@ -93,18 +102,15 @@ public class ShopController {
 		return map;
 	}
 	// 리뷰 등록
-	@RequestMapping(value = "/shop/private/review_insert", 
-			method = RequestMethod.POST)
-	public String reviewInsert(HttpServletRequest request,
-			@RequestParam int bookNum) {
+	@RequestMapping(value = "/shop/private/review_insert", method = RequestMethod.POST)
+	public String reviewInsert(HttpServletRequest request, @RequestParam int bookNum) {
 		//새 리뷰를 저장하고
 		service.insertReview(request);
 		//글 자세히 보기로 다시 리다일렉트 이동 시킨다.
 		return "redirect:/shop/detail.do?num="+bookNum;
 	}
 	// 리뷰 수정
-	@RequestMapping(value = "/shop/private/review_update", 
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/shop/private/review_update", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> reviewUpdate(ShopReviewDto dto){
 		//댓글을 수정 반영하고 
@@ -117,10 +123,97 @@ public class ShopController {
 	}
 	// 리뷰 삭제
 	@RequestMapping("/shop/private/review_delete")
-	public ModelAndView commentDelete(HttpServletRequest request,
-			ModelAndView mView, @RequestParam int bookNum) {
+	public ModelAndView commentDelete(HttpServletRequest request, ModelAndView mView, @RequestParam int bookNum) {
 		service.deleteReview(request);
 		mView.setViewName("redirect:/shop/detail.do?num="+bookNum);
 		return mView;
 	}
+
+	// 카트 담기
+	@ResponseBody
+	@RequestMapping(value = "/shop/private/addCart", method = RequestMethod.POST)
+	public int addCart(CartDto cart, HttpSession session) {
+
+		int result = 0;
+
+		UsersDto users = (UsersDto) session.getAttribute("users");
+
+		if (users != null) {
+			cart.setUserId(users.getId());
+			service.addCart(cart);
+			result = 1;
+		}
+
+		return result;
+	}
+
+	// 카트목록
+	@RequestMapping(value = "/shop/private/cartList", method = RequestMethod.GET)
+	public void getCartList(HttpSession session, Model model) {
+
+		UsersDto users = (UsersDto) session.getAttribute("users");
+		String userId = users.getId();
+
+		List<CartListDto> cartList = service.cartList(userId);
+
+		model.addAttribute("cartList", cartList);
+
+	}
+
+	// 카트 삭제
+	@ResponseBody
+	@RequestMapping(value = "/shop/private/deleteCart", method = RequestMethod.POST)
+	public int deleteCart(HttpSession session, @RequestParam(value = "chbox[]") List<String> chArr, CartDto cart){
+
+		UsersDto users = (UsersDto) session.getAttribute("users");
+		String userId = users.getId();
+
+		int result = 0;
+		int cartNum = 0;
+
+		if (users != null) {
+			cart.setUserId(userId);
+
+			for (String i : chArr) {
+				cartNum = Integer.parseInt(i);
+				cart.setCartNum(cartNum);
+				service.deleteCart(cart);
+			}
+			result = 1;
+		}
+		return result;
+	}
+	//카트 상품 주문
+	@RequestMapping(value = "/shop/private/cartList", method = RequestMethod.POST)
+	public String order(HttpSession session, OrderDto order, OrderDetailDto orderDetail){
+
+	UsersDto users = (UsersDto) session.getAttribute("users");
+	String userId = users.getId();
+
+	Calendar cal = Calendar.getInstance();
+	 int year = cal.get(Calendar.YEAR);
+	 String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+	 String ymd = ym +  new DecimalFormat("00").format(cal.get(Calendar.DATE));
+	 String subNum = "";
+
+	 for(int i = 1; i <= 6; i ++) {
+	  subNum += (int)(Math.random() * 10);
+	 }
+
+	 String orderId = ymd + "_" + subNum;
+
+	 order.setOrderId(orderId);
+	 order.setUserId(userId);
+
+
+	 service.orderInfo(order); 
+
+	 orderDetail.setOrderId(orderId);   
+	 service.orderInfo_Details(orderDetail); 
+
+	 service.cartAllDelete(userId);
+
+	 return "redirect:/shop/private/orderList";  
+	}
+
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -105,13 +105,51 @@
 						</tr>
 					</tbody>
 				</table>
+				<form action="#" method="post">
+					<span>구매수량</span>
+					<input type="number" class="numBox" min="1" max="100" value="1"/>
+					<button type="submit" class="btn btn-primary">장바구니에 담기</button>
+				</form>
 			</div>
 		</div>
 	</div>
 	<div>
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
-	</div>
+		<a href="users/member/private/buy.do">구매하기</a>
+			<p class="addToCart">
+				<button type="button" class="addCart_btn">카트에 담기</button>
+<script>
+	$(".addCart_btn").click(function(){
+		var gdsNum = $("#gdsNum").val();
+		var cartStock = $(".numBox").val();
+	
+		var data = {
+			gdsNum : gdsNum,
+			cartStock : cartStock
+		};
+   
+		$.ajax({
+			url : "/shop/private/addCart",
+			type : "post",
+			data : data,
+			success : function(result){
+				if(result == 1) {
+					alert("카트 담기 성공");
+					$(".numBox").val("1");
+				} else {
+					alert("회원만 사용할 수 있습니다.")
+					$(".numBox").val("1");
+				}
+			},
+			error : function(){
+			alert("카트 담기 실패");
+			}
+		});
+	});
+</script>
+			</p>
+		</div>
 	<c:if test="${sessionScope.userGrade eq 'manager'}">
 		<a class="btn btn-secondary" href="manager/updateform.do?num=${shopDto.num }">책 정보 수정</a>
 		<a class="btn btn-secondary" href="manager/delete.do?num=${shopDto.num }">책 정보 삭제</a>
@@ -120,7 +158,17 @@
 	<form class="review-form insert-form" action="private/review_insert.do" method="post">
 		<!-- 원글의 글번호가 bookNum 번호가 된다. -->
 		<input type="hidden" name="bookNum" value="${shopDto.num }"/>
-		<textarea name="content"><c:if test="${empty id }">로그인이 필요합니다</c:if></textarea>
+		<c:choose>
+			<c:when test="${empty id }">
+				<textarea name="content" disabled>로그인이 필요합니다.</textarea>
+			</c:when>
+			<c:when test="${checkReviewCount ge 1 }">
+				<textarea name="content" disabled>이미 리뷰를 작성하셨습니다.</textarea>
+			</c:when>
+			<c:otherwise>
+				<textarea name="content"></textarea>
+			</c:otherwise>
+		</c:choose>
 		<button type="submit">등록</button>
 	</form>
 	<!-- 리뷰 목록 -->
@@ -186,6 +234,7 @@
 </nav>
 </div>
 <script>
+	
 	//댓글 수정 링크를 눌렀을때 호출되는 함수 등록
 	$(document).on("click",".review-update-link", function(){
 		/*
@@ -227,11 +276,16 @@
 	$(document).on("submit",".insert-form", function(){
 		//로그인 여부
 		var isLogin=${not empty id};
+		var isReview=${checkReviewCount ge 1}
 		if(isLogin == false){
-			alert("로그인 페이지로 이동합니다.")
+			alert("로그인 페이지로 이동합니다.");
 			location.href="${pageContext.request.contextPath }/users/loginform.do?"+
 					"url=${pageContext.request.contextPath }/shop/detail.do?num=${shopDto.num}";
 			return false; //폼 전송 막기 		
+		}
+		if(isReview == true){
+			alert("이미 리뷰를 작성하셨습니다.");
+			return false;
 		}
 	});
 	function deleteReview(num){

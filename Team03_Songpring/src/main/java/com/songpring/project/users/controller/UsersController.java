@@ -61,6 +61,12 @@ public class UsersController {
 		mView.setViewName("users/findpwd_form");
 		return mView;
 	}
+	@RequestMapping("/users/findpwd_form2")
+	public ModelAndView findpwd_form2(@RequestParam String id, ModelAndView mView) {
+		mView.addObject("id",id);
+		mView.setViewName("users/findpwd_form2");
+		return mView;
+	}
 	@RequestMapping("/users/findpwd")
 	public ModelAndView findpwd(ModelAndView mView, HttpServletRequest request) {
 		service.findpwd(request, mView);

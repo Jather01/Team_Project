@@ -17,4 +17,6 @@ public interface ShopReviewDao {
 	public ShopReviewDto getData(int num);
 	//댓글의 갯수를 리턴하는 메소드
 	public int getCount(int bookNum);
+	//댓글을 하나만 작성할 수 있게 한다.
+	public int checkReviewCount(ShopReviewDto dto);
 }

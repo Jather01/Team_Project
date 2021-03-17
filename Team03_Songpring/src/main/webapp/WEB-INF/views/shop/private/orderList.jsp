@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>
-		location.href="${pageContext.request.contextPath }/shop/list1.do";
-	</script>
+
 </body>
 </html>

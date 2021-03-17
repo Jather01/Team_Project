@@ -9,7 +9,6 @@
 		<typeAlias type="com.songpring.project.notice.dto.NoticeDto" alias="noticeDto"/>
 		<typeAlias type="com.songpring.project.shop.dto.ShopReviewDto" alias="reviewDto"/>
 		<typeAlias type="com.songpring.project.qna.dto.QnADto" alias="qnaDto"/>
-		<typeAlias type="com.songpring.project.cart.dto.CartDto" alias="cartDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/songpring/project/mybatis/ShopMapper.xml"/>
@@ -17,6 +16,5 @@
 		<mapper resource="com/songpring/project/mybatis/NoticeMapper.xml"/>
 		<mapper resource="com/songpring/project/mybatis/ReviewMapper.xml"/>
 		<mapper resource="com/songpring/project/mybatis/QnAMapper.xml"/>
-		<mapper resource="com/songpring/project/mybatis/CartMapper.xml"/>
 	</mappers>
 </configuration>

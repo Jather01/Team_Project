@@ -45,4 +45,10 @@ public class ShopReviewDaoImpl implements ShopReviewDao{
 		return session.selectOne("review.getCount",bookNum);
 	}
 
+	@Override
+	public int checkReviewCount(ShopReviewDto dto) {
+		int count=session.selectOne("review.checkReviewCount", dto);
+		return count;
+	}
+
 }

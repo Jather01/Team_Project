@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
@@ -11,14 +10,12 @@
 </head>
 <body>
 <div class="container">
-	<form action="${pageContext.request.contextPath }/users/findpwd_form2.do" method="post" id="myForm" novalidate>
+	<form action="${pageContext.request.contextPath }/users/findpwd_form.do" method="post" id="myForm" novalidate>
 		<div class="form-group">
 			<label for="id">아이디</label>
-			<input class="form-control" type="text" name="id" id="id" placeholder="가입한 아이디를 입력하세요."/>
+			<input class="form-control" type="text" name="id" id="id" value="${id }"/>
 		</div>
-		<button class="btn btn-outline-primary" type="submit">확인</button>
 	</form>
 </div>
-
 </body>
 </html>
