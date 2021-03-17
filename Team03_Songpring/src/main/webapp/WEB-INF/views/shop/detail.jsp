@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -116,7 +116,40 @@
 	<div>
 		<h4>책 설명</h4>
 		<p>${shopDto.content }</p>
-	</div>
+		<a href="users/member/private/buy.do">구매하기</a>
+			<p class="addToCart">
+				<button type="button" class="addCart_btn">카트에 담기</button>
+<script>
+	$(".addCart_btn").click(function(){
+		var gdsNum = $("#gdsNum").val();
+		var cartStock = $(".numBox").val();
+	
+		var data = {
+			gdsNum : gdsNum,
+			cartStock : cartStock
+		};
+   
+		$.ajax({
+			url : "/shop/private/addCart",
+			type : "post",
+			data : data,
+			success : function(result){
+				if(result == 1) {
+					alert("카트 담기 성공");
+					$(".numBox").val("1");
+				} else {
+					alert("회원만 사용할 수 있습니다.")
+					$(".numBox").val("1");
+				}
+			},
+			error : function(){
+			alert("카트 담기 실패");
+			}
+		});
+	});
+</script>
+			</p>
+		</div>
 	<c:if test="${sessionScope.userGrade eq 'manager'}">
 		<a class="btn btn-secondary" href="manager/updateform.do?num=${shopDto.num }">책 정보 수정</a>
 		<a class="btn btn-secondary" href="manager/delete.do?num=${shopDto.num }">책 정보 삭제</a>
@@ -201,6 +234,7 @@
 </nav>
 </div>
 <script>
+	
 	//댓글 수정 링크를 눌렀을때 호출되는 함수 등록
 	$(document).on("click",".review-update-link", function(){
 		/*
